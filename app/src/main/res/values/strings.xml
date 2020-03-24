@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Apteka</string>
+    <string name="search_hint">Поиск лекарств</string>
+</resources>
