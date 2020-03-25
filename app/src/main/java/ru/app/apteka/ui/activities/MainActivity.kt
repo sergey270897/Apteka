@@ -1,6 +1,7 @@
 package ru.app.apteka.ui.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.app.apteka.R
@@ -17,9 +18,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.container, CatalogFragment(), CatalogFragment::class.simpleName)
-            .commit()
+        val fragment = supportFragmentManager.findFragmentByTag(CatalogFragment::class.simpleName)
+
+        if(fragment == null){
+            supportFragmentManager.beginTransaction()
+                .add(R.id.container, CatalogFragment(), CatalogFragment::class.simpleName)
+                .commit()
+        }
     }
 
     override fun onBackPressed() {

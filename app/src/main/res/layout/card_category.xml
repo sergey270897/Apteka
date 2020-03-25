@@ -19,7 +19,6 @@
         android:layout_height="100dp"
         android:layout_margin="4dp"
         android:background="@drawable/bg_round_color"
-        android:elevation="1dp"
         android:onClick="@{()->vm.onClick(category)}"
         android:orientation="horizontal"
         android:padding="16dp">

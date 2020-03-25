@@ -28,6 +28,11 @@ val categories = """{
         "id": 5,
         "title": "Массажеры sdsdsd999",
         "slug": "massage"
+    },
+    {
+        "id": 6,
+        "title": "Массажеры sdsdsd999",
+        "slug": "massage"
     }
     ],
     "groups": [
@@ -45,6 +50,51 @@ val categories = """{
         "id": 3,
         "title": "Техника asas",
         "categories": [4, 5]
+    },
+    {
+        "id": 4,
+        "title": "Техника asas",
+        "categories": [6]
+    },
+    {
+        "id": 4,
+        "title": "Техника asas",
+        "categories": [6]
+    },
+    {
+        "id": 4,
+        "title": "Техника asas",
+        "categories": [6]
+    },
+    {
+        "id": 4,
+        "title": "Техника asas",
+        "categories": [6]
+    },
+    {
+        "id": 4,
+        "title": "Техника asas",
+        "categories": [6]
+    },
+    {
+        "id": 4,
+        "title": "Техника asas",
+        "categories": [6]
+    },
+    {
+        "id": 4,
+        "title": "Техника asas",
+        "categories": [6]
+    },
+    {
+        "id": 4,
+        "title": "Техника asas",
+        "categories": [6]
+    },
+    {
+        "id": 4,
+        "title": "Техника asas",
+        "categories": [6]
     }
     ]
 }""".trimIndent()

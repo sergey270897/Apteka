@@ -1,6 +1,5 @@
 package ru.app.apteka.repositories
 
-import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +14,7 @@ class CatalogRepository {
         val response = DataGenerator.getCategoriesApi()
         Thread.sleep(2000)
         val res = MutableLiveData<List<Category>>()
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             res.value = Utils.json2Category(response)
         }
         return res

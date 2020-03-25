@@ -38,7 +38,6 @@ class CatalogAdapter(private val viewModel: CatalogModel) :
         }
 
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-
         items = data
         diffResult.dispatchUpdatesTo(this)
     }

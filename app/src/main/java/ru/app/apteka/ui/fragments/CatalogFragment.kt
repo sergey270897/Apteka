@@ -1,6 +1,7 @@
 package ru.app.apteka.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,7 @@ class CatalogFragment : Fragment(), MainActivity.OnBackPressed {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_catalog, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -54,7 +55,7 @@ class CatalogFragment : Fragment(), MainActivity.OnBackPressed {
     }
 
     private fun initViewModels() {
-        catalogModel = ViewModelProviders.of(activity!!).get(CatalogModel::class.java)
+        catalogModel = ViewModelProviders.of(activity as MainActivity).get(CatalogModel::class.java)
 
         catalogModel.categories.observe(viewLifecycleOwner, Observer {
             catalogAdapter.updateData(it)
