@@ -8,18 +8,14 @@
         <variable
             name="category"
             type="ru.app.apteka.models.Category" />
-
-        <variable
-            name="vm"
-            type="ru.app.apteka.viewmodels.CatalogModel" />
     </data>
 
     <LinearLayout
+        android:id="@+id/card_category"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="4dp"
         android:background="@drawable/bg_round_color"
-        android:onClick="@{()->vm.onClick(category)}"
         android:orientation="horizontal"
         android:padding="16dp">
 

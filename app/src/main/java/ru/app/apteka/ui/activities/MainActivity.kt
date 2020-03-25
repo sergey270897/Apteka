@@ -1,17 +1,12 @@
 package ru.app.apteka.ui.activities
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.app.apteka.R
 import ru.app.apteka.ui.fragments.CatalogFragment
 
 class MainActivity : AppCompatActivity() {
-
-    interface OnBackPressed {
-        fun onBackPressed(): Boolean
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,16 +15,18 @@ class MainActivity : AppCompatActivity() {
 
         val fragment = supportFragmentManager.findFragmentByTag(CatalogFragment::class.simpleName)
 
-        if(fragment == null){
+        if (fragment == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.container, CatalogFragment(), CatalogFragment::class.simpleName)
+                .add(
+                    R.id.container,
+                    CatalogFragment.getInstance("group", getString(R.string.app_name), 0),
+                    CatalogFragment::class.simpleName
+                )
                 .commit()
         }
-    }
 
-    override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentByTag(CatalogFragment::class.simpleName)
-        if (fragment == null || !fragment.isVisible || (fragment as OnBackPressed).onBackPressed())
-            super.onBackPressed()
+        toolbar.setNavigationOnClickListener {
+            supportFragmentManager.popBackStack()
+        }
     }
 }

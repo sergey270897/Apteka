@@ -9,7 +9,7 @@ import ru.app.apteka.databinding.CardCategoryBinding
 import ru.app.apteka.models.Category
 import ru.app.apteka.viewmodels.CatalogModel
 
-class CatalogAdapter(private val viewModel: CatalogModel) :
+class CatalogAdapter(val onClick: (category:Category)-> Unit) :
     RecyclerView.Adapter<CatalogAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: CardCategoryBinding) :
@@ -17,8 +17,8 @@ class CatalogAdapter(private val viewModel: CatalogModel) :
         fun bind(item: Category) {
             with(binding) {
                 category = item
-                vm = viewModel
             }
+            binding.cardCategory.setOnClickListener{onClick(item)}
         }
     }
 
