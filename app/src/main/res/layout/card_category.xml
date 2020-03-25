@@ -2,7 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <import type="android.text.TextUtils"/>
+
+        <import type="android.text.TextUtils" />
+
         <variable
             name="category"
             type="ru.app.apteka.models.Category" />
@@ -15,28 +17,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@drawable/bg_round_ripple_color"
-        android:orientation="horizontal"
-        android:padding="16dp"
         android:layout_margin="4dp"
+        android:background="@drawable/bg_round_color"
         android:elevation="1dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="@{()->vm.onClick(category)}">
+        android:onClick="@{()->vm.onClick(category)}"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{category.title}"
-            android:fontFamily="sans-serif-light"/>
+            android:fontFamily="sans-serif-light"
+            android:text="@{category.title}" />
 
         <ImageView
-            android:layout_gravity="center"
             android:layout_width="45dp"
             android:layout_height="45dp"
+            android:layout_gravity="center"
             android:background="@drawable/medicine" />
     </LinearLayout>
+
 </layout>

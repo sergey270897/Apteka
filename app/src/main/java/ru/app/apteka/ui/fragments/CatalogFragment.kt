@@ -1,7 +1,6 @@
 package ru.app.apteka.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_catalog.*
 import ru.app.apteka.R
 import ru.app.apteka.databinding.FragmentCatalogBinding
+import ru.app.apteka.ui.activities.MainActivity
 import ru.app.apteka.ui.adapters.CatalogAdapter
 import ru.app.apteka.viewmodels.CatalogModel
 
-class CatalogFragment : Fragment() {
+class CatalogFragment : Fragment(), MainActivity.OnBackPressed {
 
     private lateinit var catalogModel: CatalogModel
     private lateinit var catalogAdapter: CatalogAdapter
@@ -44,6 +45,11 @@ class CatalogFragment : Fragment() {
         with(rv_list_catalog) {
             adapter = catalogAdapter
             layoutManager = GridLayoutManager(context, 2)
+            //(itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
+
+        (activity as MainActivity).toolbar.setNavigationOnClickListener {
+            catalogModel.onClickBack()
         }
     }
 
@@ -55,5 +61,18 @@ class CatalogFragment : Fragment() {
         })
 
         binding.vm = catalogModel
+
+        catalogModel.title.observe(
+            viewLifecycleOwner,
+            Observer { (activity as MainActivity).supportActionBar?.title = it })
+
+        catalogModel.showBack.observe(viewLifecycleOwner, Observer {
+            (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(it)
+            (activity as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(it)
+        })
+    }
+
+    override fun onBackPressed():Boolean {
+        return catalogModel.onClickBack()
     }
 }
