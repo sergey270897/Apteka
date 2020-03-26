@@ -6,7 +6,9 @@ data class Medicine(
     val categoryId:Int,
     val categoryName:String,
     val image:String,
-    val price:Int,
-    val rating:Int,
+    val price:Float,
+    val rating:Float,
     val available: Boolean
-)
+){
+    fun priceString():String = String.format("%.2f ₽", price)
+}

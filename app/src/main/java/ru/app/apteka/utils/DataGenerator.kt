@@ -152,6 +152,156 @@ val medicines = """
           "price": 1234,
           "rating": 4,
           "available": true
+        },
+        {
+          "id": 6,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 7,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 8,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 9,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 10,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 11,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 12,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 13,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 14,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 15,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 16,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 17,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 18,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 19,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
+        },
+        {
+          "id": 20,
+          "title": "Терафлю 22.1г пор.д/р-ра д/пр.внутр. №10 пак. лимон",
+          "categoryId": 1,
+          "categoryName": "Против гриппа",
+          "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
+          "price": 1234,
+          "rating": 4,
+          "available": true
         }
       ]
     }

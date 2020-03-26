@@ -13,10 +13,6 @@ class CatalogRepository {
     suspend fun getCategories(): LiveData<List<Category>> {
         val response = DataGenerator.getCategoriesApi()
         Thread.sleep(2000)
-        val res = MutableLiveData<List<Category>>()
-        withContext(Dispatchers.Main) {
-            res.value = Utils.json2Category(response)
-        }
-        return res
+        return MutableLiveData(Utils.json2Category(response))
     }
 }

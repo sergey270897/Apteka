@@ -7,9 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.app.apteka.R
 import ru.app.apteka.databinding.CardCategoryBinding
 import ru.app.apteka.models.Category
-import ru.app.apteka.viewmodels.CatalogModel
 
-class CatalogAdapter(val onClick: (category:Category)-> Unit) :
+class CatalogAdapter(val onClick: (category: Category) -> Unit) :
     RecyclerView.Adapter<CatalogAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: CardCategoryBinding) :
@@ -18,7 +17,7 @@ class CatalogAdapter(val onClick: (category:Category)-> Unit) :
             with(binding) {
                 category = item
             }
-            binding.cardCategory.setOnClickListener{onClick(item)}
+            binding.cardCategory.setOnClickListener { onClick(item) }
         }
     }
 
