@@ -8,16 +8,20 @@ import ru.app.apteka.R
 import ru.app.apteka.databinding.CardCategoryBinding
 import ru.app.apteka.models.Category
 
-class CatalogAdapter(val onClick: (category: Category) -> Unit) :
+class CatalogAdapter(val callback: OnClickListener) :
     RecyclerView.Adapter<CatalogAdapter.ViewHolder>() {
+
+    interface OnClickListener {
+        fun onClickItem(category: Category)
+    }
 
     inner class ViewHolder(private val binding: CardCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Category) {
             with(binding) {
                 category = item
+                cardCategory.setOnClickListener { callback.onClickItem(item) }
             }
-            binding.cardCategory.setOnClickListener { onClick(item) }
         }
     }
 

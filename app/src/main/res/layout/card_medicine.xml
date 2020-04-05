@@ -21,8 +21,8 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
-            android:src="@drawable/medicine"
-            app:errorImage="@{@drawable/medicine}"
+            android:src="@drawable/placeholder"
+            app:errorImage="@{@drawable/placeholder}"
             app:url="@{medicine.image}"/>
 
         <TextView
@@ -44,7 +44,7 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_round_color"
             android:backgroundTint="@color/colorAccent"
@@ -52,7 +52,7 @@
             android:drawableTint="@android:color/white"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="Купить"
+            android:text="@string/buy"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             android:fontFamily="sans-serif-light"/>

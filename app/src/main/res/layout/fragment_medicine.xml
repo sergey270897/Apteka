@@ -15,13 +15,35 @@
         android:paddingEnd="8dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/card_medicine" />
+        tools:listitem="@layout/card_medicine"/>
 
     <ProgressBar
         android:id="@+id/progress_medicine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/tv_state_medicine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:indeterminate="false"
+        android:layout_margin="32dp"
+        android:gravity="center"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_refresh_medicine"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@id/tv_state_medicine"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_round_color"
+        android:backgroundTint="@color/colorAccent"
+        android:fontFamily="sans-serif-light"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/refresh"
+        android:textColor="@android:color/white"
         android:visibility="gone" />
 </RelativeLayout>

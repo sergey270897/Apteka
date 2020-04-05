@@ -18,7 +18,7 @@ class MedicineRepository {
         order: String = "desc"
     ): List<Medicine> {
         val response = DataGenerator.getMedicinesApi()
-        Thread.sleep(2000)
+        Thread.sleep(3000)
         return Utils.json2Medicine(response)
     }
 }

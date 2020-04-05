@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Apteka</string>
     <string name="search_hint">Поиск лекарств</string>
+    <string name="refresh">Повторить</string>
+    <string name="error">Oops! Технические неполадки ¯\\_(ツ)_/¯</string>
+    <string name="empty">Результаты не найдены ¯\\_(ツ)_/¯</string>
+    <string name="buy">Купить</string>
 </resources>

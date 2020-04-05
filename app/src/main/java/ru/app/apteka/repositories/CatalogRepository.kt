@@ -2,8 +2,6 @@ package ru.app.apteka.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import ru.app.apteka.models.Category
 import ru.app.apteka.utils.DataGenerator
 import ru.app.apteka.utils.Utils

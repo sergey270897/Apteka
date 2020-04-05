@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="ru.app.apteka.network.NetworkState" />
+        <import type="android.view.View" />
+
+        <variable
+            name="state"
+            type="ru.app.apteka.network.NetworkState" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ProgressBar
+            android:id="@+id/progress_medicine_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="@{state == NetworkState.RUNNING? View.VISIBLE: View.GONE}" />
+
+        <TextView
+            android:id="@+id/tv_state_medicine_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/error"
+            android:visibility="@{state == NetworkState.FAILED? View.VISIBLE: View.GONE}"/>
+
+        <Button
+            android:id="@+id/btn_refresh_medicine_card"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_below="@id/tv_state_medicine_card"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:text="@string/refresh"
+            android:textColor="@color/colorAccent"
+            android:visibility="@{state == NetworkState.FAILED? View.VISIBLE: View.GONE}"/>
+
+    </RelativeLayout>
+</layout>

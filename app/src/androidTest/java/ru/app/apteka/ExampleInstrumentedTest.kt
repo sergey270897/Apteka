@@ -24,11 +24,4 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("ru.app.apteka", appContext.packageName)
     }
-
-    @Test
-    fun test(){
-        val json = DataGenerator.getCategoriesApi()
-        val res = Utils.json2Category(json)
-        Log.d("M__ExampleInstrumentedTest",res.toString())
-    }
 }

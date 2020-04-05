@@ -1,5 +1,6 @@
 package ru.app.apteka.utils
 
+import android.content.Context
 import org.json.JSONObject
 import ru.app.apteka.models.Category
 import ru.app.apteka.models.Medicine
@@ -56,5 +57,10 @@ object Utils {
             res.add(med)
         }
         return res
+    }
+
+    fun dpToPx(context: Context, value:Int):Int{
+        val scale = context.resources.displayMetrics.density
+        return (value * scale + 0.5f).toInt()
     }
 }

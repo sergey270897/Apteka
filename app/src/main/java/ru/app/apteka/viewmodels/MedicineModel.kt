@@ -1,34 +1,49 @@
 package ru.app.apteka.viewmodels
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.DataSource
+import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import ru.app.apteka.models.Medicine
-import ru.app.apteka.repositories.MedicineDataSource
+import ru.app.apteka.network.NetworkState
+import ru.app.apteka.repositories.MedicineRepository
+import ru.app.apteka.repositories.datasource.MedicineDataSourceFactory
+import ru.app.apteka.ui.base.BaseViewModel
 
-class MedicineModel : ViewModel() {
-    val medicines: LiveData<PagedList<Medicine>>
+class MedicineModel: BaseViewModel() {
 
-    init {
-        val config = PagedList.Config.Builder()
-            .setPageSize(20)
-            .setEnablePlaceholders(false)
-            .build()
+    private val repository = MedicineRepository()
 
-        medicines = initPagedListBuilder(config).build()
+    private val medicineDataSource = MedicineDataSourceFactory(
+        repository = repository,
+        scope = ioScope
+    )
+
+    val networkState: LiveData<NetworkState>? = Transformations.switchMap(medicineDataSource.source){
+        it.getNetworkState()
     }
 
-    private fun initPagedListBuilder(config: PagedList.Config): LivePagedListBuilder<Int, Medicine> {
+    val medicines = LivePagedListBuilder(medicineDataSource, getConfig()).build()
 
-        val dataSourceFactory = object : DataSource.Factory<Int, Medicine>() {
-            override fun create(): DataSource<Int, Medicine> {
-                return MedicineDataSource(viewModelScope)
-            }
-        }
+    private fun getConfig() = PagedList.Config.Builder()
+        .setPageSize(20)
+        .setInitialLoadSizeHint(40)
+        .setEnablePlaceholders(false)
+        .build()
 
-        return LivePagedListBuilder(dataSourceFactory, config)
+
+    fun getMedicinesByName(query: String) {
+        val search = query.trim()
+        if (medicineDataSource.getQuery() == search) return
+        medicineDataSource.updateQuery(query)
     }
+
+    fun getMedicinesByCategoriesID(id:Int){
+        medicineDataSource.updateQuery(id)
+    }
+
+    fun refreshFailedRequest() = medicineDataSource.getSource()?.retryFailedQuery()
+
+    fun refreshAll() = medicineDataSource.getSource()?.refresh()
+
+    fun getCurrentQuery() = medicineDataSource.getQuery()
 }
