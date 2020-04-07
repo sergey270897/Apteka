@@ -5,4 +5,5 @@
     <string name="error">Oops! Технические неполадки ¯\\_(ツ)_/¯</string>
     <string name="empty">Результаты не найдены ¯\\_(ツ)_/¯</string>
     <string name="buy">Купить</string>
+    <string name="notAvaliable">Нет в наличии</string>
 </resources>

@@ -9,7 +9,7 @@ import ru.app.apteka.repositories.MedicineRepository
 import ru.app.apteka.repositories.datasource.MedicineDataSourceFactory
 import ru.app.apteka.ui.base.BaseViewModel
 
-class MedicineModel: BaseViewModel() {
+class MedicineModel(val categoryId:Int): BaseViewModel() {
 
     private val repository = MedicineRepository()
 
@@ -24,9 +24,15 @@ class MedicineModel: BaseViewModel() {
 
     val medicines = LivePagedListBuilder(medicineDataSource, getConfig()).build()
 
+    init {
+        if(categoryId != 0){
+            getMedicinesByCategoriesID(categoryId)
+        }
+    }
+
     private fun getConfig() = PagedList.Config.Builder()
         .setPageSize(20)
-        .setInitialLoadSizeHint(40)
+        .setInitialLoadSizeHint(20)
         .setEnablePlaceholders(false)
         .build()
 
@@ -37,7 +43,7 @@ class MedicineModel: BaseViewModel() {
         medicineDataSource.updateQuery(query)
     }
 
-    fun getMedicinesByCategoriesID(id:Int){
+    private fun getMedicinesByCategoriesID(id:Int){
         medicineDataSource.updateQuery(id)
     }
 

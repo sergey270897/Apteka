@@ -30,7 +30,7 @@
         android:layout_centerInParent="true"
         android:layout_margin="32dp"
         android:gravity="center"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/btn_refresh_medicine"
@@ -44,6 +44,5 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:text="@string/refresh"
-        android:textColor="@android:color/white"
-        android:visibility="gone" />
+        android:textColor="@android:color/white" />
 </RelativeLayout>

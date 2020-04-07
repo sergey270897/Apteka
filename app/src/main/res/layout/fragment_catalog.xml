@@ -43,6 +43,5 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:text="@string/refresh"
-        android:textColor="@android:color/white"
-        android:visibility="gone" />
+        android:textColor="@android:color/white"/>
 </RelativeLayout>

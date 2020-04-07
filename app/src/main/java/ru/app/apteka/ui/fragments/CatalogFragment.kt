@@ -65,12 +65,13 @@ class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).supportActionBar?.title = title
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(type == TypeCatalog.CATEGORY)
+
         initViewModels()
         initViews()
     }
 
     private fun initViews() {
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(type == TypeCatalog.CATEGORY)
         (activity as MainActivity).toolbar.setNavigationOnClickListener {
             (activity as MainActivity).supportFragmentManager.popBackStack()
         }

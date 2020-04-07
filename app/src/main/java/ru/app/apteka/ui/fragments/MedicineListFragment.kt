@@ -1,6 +1,7 @@
 package ru.app.apteka.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -17,7 +18,9 @@ import ru.app.apteka.R
 import ru.app.apteka.network.NetworkState
 import ru.app.apteka.ui.activities.MainActivity
 import ru.app.apteka.ui.adapters.MedicineAdapter
+import ru.app.apteka.utils.extensions.onTextChanged
 import ru.app.apteka.viewmodels.MedicineModel
+import ru.app.apteka.viewmodels.factory.MedicineModelFactory
 
 class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
 
@@ -33,19 +36,16 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
     }
 
     private var categoryId = 0
+    private var title: String = ""
     private val medicineAdapter = MedicineAdapter(this)
     private lateinit var medicineModel: MedicineModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setHasOptionsMenu(true)
         arguments?.let {
             categoryId = it.getInt("id")
-            (activity as MainActivity).supportActionBar?.title = it.getString("title")
+            title = it.getString("title") ?: ""
         }
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        (activity as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun onCreateView(
@@ -58,6 +58,11 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setHasOptionsMenu(true)
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as MainActivity).supportActionBar?.title = title
+
         initViewModels()
         initViews()
     }
@@ -88,10 +93,9 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
     }
 
     private fun initViewModels() {
+        val factory = MedicineModelFactory(categoryId)
         medicineModel =
-            ViewModelProviders.of(activity as MainActivity).get(MedicineModel::class.java)
-
-        if (categoryId != 0) medicineModel.getMedicinesByCategoriesID(categoryId)
+            ViewModelProviders.of(this, factory).get(MedicineModel::class.java)
 
         medicineModel.medicines.observe(viewLifecycleOwner, Observer {
             medicineAdapter.submitList(it)
@@ -105,6 +109,7 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
     private fun configureMenu(menu: Menu) {
         val searchItem = menu.findItem(R.id.action_search)
         searchItem.isVisible = categoryId == 0
+        if(searchItem.isVisible) searchItem.expandActionView()
 
         val query = medicineModel.getCurrentQuery()
         val searchView = searchItem.actionView as SearchView
@@ -115,16 +120,9 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
             searchView.clearFocus()
         }
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                medicineModel.getMedicinesByName(query)
-                return true
-            }
-        })
+        searchView.onTextChanged {
+            medicineModel.getMedicinesByName(it!!)
+        }
     }
 
     private fun updateUIData(size: Int, networkState: NetworkState?) {

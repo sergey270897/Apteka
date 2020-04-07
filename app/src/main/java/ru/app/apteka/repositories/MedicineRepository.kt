@@ -18,7 +18,10 @@ class MedicineRepository {
         order: String = "desc"
     ): List<Medicine> {
         val response = DataGenerator.getMedicinesApi()
+        var list = Utils.json2Medicine(response)
+        if (categoryId != 0) list = list.filter { it.categoryId == categoryId }
+        if (q.isNotEmpty()) list = list.filter { it.title.contains(q, true) }
         Thread.sleep(3000)
-        return Utils.json2Medicine(response)
+        return list
     }
 }

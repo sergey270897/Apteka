@@ -1,11 +1,11 @@
 package ru.app.apteka.ui.adapters
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -48,11 +48,12 @@ class MedicineAdapter(private val callback: OnClickListener) :
 
         fun bind(networkState: NetworkState?) {
             binding.state = networkState
+            binding.btnRefreshMedicineCard.setOnClickListener { callback.onClickRefresh() }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (hasExtraRow() && position == itemCount - 1) {
+        return if (hasExtraRow() && position == itemCount-1) {
             ViewType.LOADING.ordinal
         } else {
             ViewType.MEDICINE.ordinal
@@ -62,13 +63,15 @@ class MedicineAdapter(private val callback: OnClickListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             ViewType.MEDICINE.ordinal -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.card_medicine, parent, false)
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.card_medicine, parent, false)
                 val binding = CardMedicineBinding.bind(view)
                 MedicineItemHolder(binding)
             }
 
             ViewType.LOADING.ordinal -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.card_loading, parent, false)
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.card_loading, parent, false)
                 val binding = CardLoadingBinding.bind(view)
                 MedicineLoadingHolder(binding)
             }
@@ -85,26 +88,27 @@ class MedicineAdapter(private val callback: OnClickListener) :
 
     override fun getItemCount(): Int {
         this.callback.listUpdated(super.getItemCount(), networkState)
-        return super.getItemCount()
+        return super.getItemCount() + if(hasExtraRow() && super.getItemCount() != 0) 1 else 0
     }
+
 
     private fun hasExtraRow() = networkState != null && networkState != NetworkState.SUCCESS
 
     fun updateNetworkState(newNetworkState: NetworkState?) {
         val lastState = networkState
-        val lastExtraRow = hasExtraRow()
+        val hadExtraRow = hasExtraRow()
 
         networkState = newNetworkState
         val currentExtraRow = hasExtraRow()
 
-        if (lastExtraRow != currentExtraRow) {
-            if (lastExtraRow) {
-                notifyItemRemoved(super.getItemCount())
+        if (hadExtraRow != currentExtraRow) {
+            if (hadExtraRow) {
+                notifyItemRemoved(itemCount-1)
             } else {
-                notifyItemInserted(super.getItemCount())
+                notifyItemInserted(itemCount-1)
             }
         } else if (currentExtraRow && lastState != newNetworkState) {
-            notifyItemChanged(itemCount - 1)
+            notifyItemChanged(itemCount-1)
         }
     }
 
