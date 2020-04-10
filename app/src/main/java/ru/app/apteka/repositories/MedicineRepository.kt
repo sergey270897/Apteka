@@ -2,7 +2,7 @@ package ru.app.apteka.repositories
 
 import ru.app.apteka.models.Medicine
 import ru.app.apteka.utils.DataGenerator
-import ru.app.apteka.utils.Utils
+import ru.app.apteka.utils.json2Medicine
 
 class MedicineRepository {
 
@@ -18,9 +18,10 @@ class MedicineRepository {
         order: String = "desc"
     ): List<Medicine> {
         val response = DataGenerator.getMedicinesApi()
-        var list = Utils.json2Medicine(response)
+        var list = json2Medicine(response)
         if (categoryId != 0) list = list.filter { it.categoryId == categoryId }
         if (q.isNotEmpty()) list = list.filter { it.title.contains(q, true) }
+        list = list.drop(offset).take(count)
         Thread.sleep(3000)
         return list
     }

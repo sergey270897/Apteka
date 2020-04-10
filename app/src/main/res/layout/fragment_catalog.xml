@@ -23,6 +23,7 @@
         android:layout_centerInParent="true" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_state_catalog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,6 +33,7 @@
         android:textSize="18sp" />
 
     <Button
+        android:visibility="gone"
         android:id="@+id/btn_refresh_catalog"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
@@ -43,5 +45,6 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:text="@string/refresh"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:stateListAnimator="@null"/>
 </RelativeLayout>

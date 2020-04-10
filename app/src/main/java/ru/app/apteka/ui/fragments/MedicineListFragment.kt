@@ -1,28 +1,33 @@
 package ru.app.apteka.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import kotlinx.android.synthetic.main.fragment_medicine.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import ru.app.apteka.R
 import ru.app.apteka.network.NetworkState
 import ru.app.apteka.ui.activities.MainActivity
 import ru.app.apteka.ui.adapters.MedicineAdapter
+import ru.app.apteka.ui.custom.CustomGridLayoutManager
 import ru.app.apteka.utils.extensions.onTextChanged
 import ru.app.apteka.viewmodels.MedicineModel
-import ru.app.apteka.viewmodels.factory.MedicineModelFactory
 
 class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
+
+    private val medicineModel: MedicineModel by viewModel { parametersOf(categoryId) }
 
     companion object {
         fun getInstance(id: Int, title: String): MedicineListFragment {
@@ -38,7 +43,7 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
     private var categoryId = 0
     private var title: String = ""
     private val medicineAdapter = MedicineAdapter(this)
-    private lateinit var medicineModel: MedicineModel
+    private lateinit var dialogFilter: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,8 +68,17 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as MainActivity).supportActionBar?.title = title
 
-        initViewModels()
         initViews()
+        initObservers()
+        createDialogFilter()
+    }
+
+    private fun createDialogFilter() {
+        val builder = AlertDialog.Builder(activity as MainActivity, R.style.Dialog)
+        val view =
+            LayoutInflater.from(activity as MainActivity).inflate(R.layout.dialog_filter, null)
+        builder.setView(view)
+        dialogFilter = builder.create()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -72,8 +86,26 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_filter -> {
+                dialogFilter.show()
+                val window = dialogFilter.window
+                val params = window?.attributes
+                params?.gravity = Gravity.BOTTOM
+                window?.attributes = params
+                window?.setLayout(
+                    GridLayoutManager.LayoutParams.MATCH_PARENT,
+                    GridLayoutManager.LayoutParams.WRAP_CONTENT
+                )
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun initViews() {
-        val layoutManager = GridLayoutManager(context, 2)
+        val layoutManager = CustomGridLayoutManager(context, 2)
+
         layoutManager.spanSizeLookup = object : SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return when (val viewType = medicineAdapter.getItemViewType(position)) {
@@ -92,11 +124,7 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
         btn_refresh_medicine.setOnClickListener { medicineModel.refreshAll() }
     }
 
-    private fun initViewModels() {
-        val factory = MedicineModelFactory(categoryId)
-        medicineModel =
-            ViewModelProviders.of(this, factory).get(MedicineModel::class.java)
-
+    private fun initObservers() {
         medicineModel.medicines.observe(viewLifecycleOwner, Observer {
             medicineAdapter.submitList(it)
         })
@@ -109,7 +137,7 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
     private fun configureMenu(menu: Menu) {
         val searchItem = menu.findItem(R.id.action_search)
         searchItem.isVisible = categoryId == 0
-        if(searchItem.isVisible) searchItem.expandActionView()
+        if (searchItem.isVisible) searchItem.expandActionView()
 
         val query = medicineModel.getCurrentQuery()
         val searchView = searchItem.actionView as SearchView
@@ -123,20 +151,21 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
         searchView.onTextChanged {
             medicineModel.getMedicinesByName(it!!)
         }
+
+        menu.findItem(R.id.action_filter).isVisible = categoryId != 0
     }
 
     private fun updateUIData(size: Int, networkState: NetworkState?) {
         tv_state_medicine.visibility = View.GONE
         btn_refresh_medicine.visibility = View.GONE
-
-        if(size == 0){
-            when(networkState){
-                NetworkState.SUCCESS->{
+        if (size == 0) {
+            when (networkState) {
+                NetworkState.SUCCESS -> {
                     tv_state_medicine.text = getString(R.string.empty)
                     tv_state_medicine.visibility = View.VISIBLE
                     btn_refresh_medicine.visibility = View.VISIBLE
                 }
-                NetworkState.FAILED->{
+                NetworkState.FAILED -> {
                     tv_state_medicine.text = getString(R.string.error)
                     tv_state_medicine.visibility = View.VISIBLE
                     btn_refresh_medicine.visibility = View.VISIBLE
@@ -146,6 +175,8 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
     }
 
     private fun updateUILoading(size: Int, networkState: NetworkState?) {
+        tv_state_medicine.visibility = View.GONE
+        btn_refresh_medicine.visibility = View.GONE
         progress_medicine.visibility =
             if (size == 0 && networkState == NetworkState.RUNNING) View.VISIBLE else View.GONE
     }

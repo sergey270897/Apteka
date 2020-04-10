@@ -7,11 +7,10 @@ import androidx.paging.PagedList
 import ru.app.apteka.network.NetworkState
 import ru.app.apteka.repositories.MedicineRepository
 import ru.app.apteka.repositories.datasource.MedicineDataSourceFactory
+import ru.app.apteka.repositories.manager.SharedPrefsManager
 import ru.app.apteka.ui.base.BaseViewModel
 
-class MedicineModel(val categoryId:Int): BaseViewModel() {
-
-    private val repository = MedicineRepository()
+class MedicineModel(val categoryId:Int, repository: MedicineRepository): BaseViewModel() {
 
     private val medicineDataSource = MedicineDataSourceFactory(
         repository = repository,

@@ -25,13 +25,18 @@ class MedicineDataSource(
     private val networkState = MutableLiveData<NetworkState>()
     private var retryQuery: (() -> Any)? = null
 
+
+    private var lastCount = 0
+
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Medicine>) {
-        retryQuery = { loadRange(params, callback) }
-        executeQuery(
-            offset = params.startPosition,
-            count = params.loadSize
-        ) {
-            callback.onResult(it)
+        if(lastCount == 20){
+            retryQuery = { loadRange(params, callback) }
+            executeQuery(
+                offset = params.startPosition,
+                count = params.loadSize
+            ) {
+                callback.onResult(it)
+            }
         }
     }
 
@@ -41,6 +46,7 @@ class MedicineDataSource(
             offset = params.requestedStartPosition,
             count = params.requestedLoadSize
         ){
+            lastCount = it.size
             callback.onResult(it, 0)
         }
     }
@@ -53,7 +59,7 @@ class MedicineDataSource(
     private fun executeQuery(offset: Int, count: Int, callback: (List<Medicine>) -> Unit) {
         networkState.postValue(NetworkState.RUNNING)
         scope.launch(getErrorHandler() + supervisorJob) {
-            delay(200)
+            delay(500)
             val medicines = repository.getMedicine(
                 offset = offset,
                 count = count,

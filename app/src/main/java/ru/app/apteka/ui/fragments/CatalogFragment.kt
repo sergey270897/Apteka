@@ -3,6 +3,8 @@ package ru.app.apteka.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -11,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_catalog.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.app.apteka.R
 import ru.app.apteka.models.Category
 import ru.app.apteka.network.NetworkState
@@ -20,6 +23,8 @@ import ru.app.apteka.utils.extensions.startFragment
 import ru.app.apteka.viewmodels.CatalogModel
 
 class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
+
+    private val catalogModel: CatalogModel by viewModel()
 
     enum class TypeCatalog {
         GROUP,
@@ -38,12 +43,10 @@ class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
         }
     }
 
+    private var catalogAdapter = CatalogAdapter(this)
     private lateinit var type: TypeCatalog
     private var categoryId: Int = 0
     private var title: String = ""
-
-    private lateinit var catalogModel: CatalogModel
-    private lateinit var catalogAdapter: CatalogAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,11 +67,13 @@ class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setHasOptionsMenu(true)
         (activity as MainActivity).supportActionBar?.title = title
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(type == TypeCatalog.CATEGORY)
 
-        initViewModels()
         initViews()
+        initObservers()
     }
 
     private fun initViews() {
@@ -76,7 +81,6 @@ class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
             (activity as MainActivity).supportFragmentManager.popBackStack()
         }
 
-        catalogAdapter = CatalogAdapter(this)
         with(rv_list_catalog) {
             adapter = catalogAdapter
             layoutManager = GridLayoutManager(context, 2)
@@ -87,10 +91,7 @@ class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
         }
     }
 
-
-    private fun initViewModels() {
-        catalogModel = ViewModelProviders.of(activity as MainActivity).get(CatalogModel::class.java)
-
+    private fun initObservers() {
         catalogModel.categories.observe(
             viewLifecycleOwner,
             Observer {
@@ -128,6 +129,7 @@ class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
         tv_state_catalog.visibility = View.GONE
         btn_refresh_catalog.visibility = View.GONE
         rv_list_catalog.visibility = View.GONE
+
         progress_catalog.visibility =
             if (networkState == NetworkState.RUNNING) View.VISIBLE else View.GONE
     }
@@ -158,5 +160,10 @@ class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
                 btn_refresh_catalog.visibility = View.VISIBLE
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.findItem(R.id.action_filter).isVisible = false
     }
 }

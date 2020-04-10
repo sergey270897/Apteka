@@ -68,6 +68,7 @@
             android:textColor="@android:color/white"
             android:textSize="14sp"
             android:fontFamily="sans-serif-light"
-            android:visibility="@{medicine.available? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{medicine.available? View.VISIBLE : View.GONE}"
+            android:stateListAnimator="@null"/>
     </LinearLayout>
 </layout>

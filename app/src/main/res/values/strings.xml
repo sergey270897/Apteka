@@ -6,4 +6,6 @@
     <string name="empty">Результаты не найдены ¯\\_(ツ)_/¯</string>
     <string name="buy">Купить</string>
     <string name="notAvaliable">Нет в наличии</string>
+    <string name="search">Поиск</string>
+    <string name="filter">Фильтр</string>
 </resources>

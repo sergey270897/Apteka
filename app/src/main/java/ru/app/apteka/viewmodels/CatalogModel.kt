@@ -13,12 +13,11 @@ import ru.app.apteka.network.NetworkState
 import ru.app.apteka.repositories.CatalogRepository
 import ru.app.apteka.ui.base.BaseViewModel
 
-class CatalogModel() : BaseViewModel() {
+class CatalogModel(private val repository: CatalogRepository) : BaseViewModel() {
 
     private var supervisorJob = SupervisorJob()
-    private val repository = CatalogRepository()
 
-    lateinit var allCategories: LiveData<List<Category>>
+    private lateinit var allCategories: LiveData<List<Category>>
 
     private var _categories = MutableLiveData<List<Category>>()
     var categories: LiveData<List<Category>>
