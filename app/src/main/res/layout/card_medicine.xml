@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="medicine"
             type="ru.app.apteka.models.Medicine" />
@@ -24,16 +26,16 @@
             android:layout_gravity="center"
             android:src="@drawable/placeholder"
             app:errorImage="@{@drawable/placeholder}"
-            app:url="@{medicine.image}"/>
+            app:url="@{medicine.image}" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ellipsize="end"
+            android:lines="2"
             android:maxLines="2"
-            android:text="@{medicine.title}"
-            android:lines="2"/>
+            android:text="@{medicine.title}" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -47,14 +49,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
             android:text="@string/not_available"
             android:textColor="@color/colorRed"
             android:textSize="16sp"
-            android:gravity="center"
-            android:layout_marginTop="16dp"
-            android:visibility="@{medicine.available? View.GONE : View.VISIBLE}"/>
+            android:visibility="@{medicine.available? View.GONE : View.VISIBLE}" />
 
         <Button
+            android:id="@+id/btn_buy_medicine_card"
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_marginTop="16dp"
@@ -62,13 +65,49 @@
             android:backgroundTint="@color/colorAccent"
             android:drawableStart="@drawable/ic_add_shopping_cart_black_18dp"
             android:drawableTint="@android:color/white"
+            android:fontFamily="sans-serif-light"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
+            android:stateListAnimator="@null"
             android:text="@string/buy"
             android:textColor="@android:color/white"
             android:textSize="14sp"
-            android:fontFamily="sans-serif-light"
-            android:visibility="@{medicine.available? View.VISIBLE : View.GONE}"
-            android:stateListAnimator="@null"/>
+            android:visibility="@{(medicine.count == 0 &amp;&amp; medicine.available) ? View.VISIBLE : View.GONE}" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:visibility="@{medicine.count > 0? View.VISIBLE : View.GONE}">
+
+            <Button
+                android:id="@+id/btn_dec_medicine_card"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_round_color"
+                android:backgroundTint="@color/colorAccent"
+                android:text="-"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
+                android:text="@{String.valueOf(medicine.count)}"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btn_inc_medicine_card"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_round_color"
+                android:backgroundTint="@color/colorAccent"
+                android:text="+"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
     </LinearLayout>
 </layout>

@@ -1,5 +1,7 @@
 package ru.app.apteka.models
 
+import androidx.lifecycle.MutableLiveData
+
 data class Medicine(
     val id:Int,
     val title:String,
@@ -10,5 +12,6 @@ data class Medicine(
     val rating:Float,
     val available: Boolean
 ){
+    var count = MutableLiveData(0)
     fun priceString():String = String.format("%.2f ₽", price)
 }

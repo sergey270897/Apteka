@@ -80,7 +80,7 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
     private fun createDialogFilter() {
         val builder = AlertDialog.Builder(activity as MainActivity, R.style.Dialog)
         val bind = DataBindingUtil.inflate<DialogFilterBinding>(LayoutInflater.from(this.context), R.layout.dialog_filter,null, false)
-        bind.lifecycleOwner = this
+        bind.lifecycleOwner = viewLifecycleOwner
         val range = bind.root.findViewById<CrystalRangeSeekbar>(R.id.range_price_dialog)
         range.setMaxStartValue(medicineModel.filter.value?.priceTo?.toFloat()!!)
         range.setMinStartValue(medicineModel.filter.value?.priceFrom?.toFloat()!!)

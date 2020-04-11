@@ -1,11 +1,13 @@
 package ru.app.apteka.ui.adapters
 
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -34,13 +36,48 @@ class MedicineAdapter(private val callback: OnClickListener) :
     }
 
     inner class MedicineItemHolder(private val binding: CardMedicineBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root), LifecycleOwner {
+
+        private val lifecycle = LifecycleRegistry(this)
+
+        init {
+            lifecycle.currentState = Lifecycle.State.INITIALIZED
+        }
+
+        fun markAttach() {
+            lifecycle.currentState = Lifecycle.State.STARTED
+        }
+
+        fun markDetach() {
+            lifecycle.currentState = Lifecycle.State.DESTROYED
+        }
 
         fun bind(item: Medicine?) {
             item?.let {
                 binding.medicine = item
+                binding.btnBuyMedicineCard.setOnClickListener {
+                    item.count.value = item.count.value?.plus(1)
+                }
+                binding.btnDecMedicineCard.setOnClickListener {
+                    item.count.value = item.count.value?.minus(1)
+                }
+                binding.btnIncMedicineCard.setOnClickListener {
+                    item.count.value = item.count.value?.plus(1)
+                }
             }
         }
+
+        override fun getLifecycle(): Lifecycle = lifecycle
+    }
+
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        if (holder is MedicineItemHolder) holder.markAttach()
+    }
+
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        if (holder is MedicineItemHolder) holder.markDetach()
     }
 
     inner class MedicineLoadingHolder(private val binding: CardLoadingBinding) :
@@ -53,7 +90,7 @@ class MedicineAdapter(private val callback: OnClickListener) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (hasExtraRow() && position == itemCount-1) {
+        return if (hasExtraRow() && position == itemCount - 1) {
             ViewType.LOADING.ordinal
         } else {
             ViewType.MEDICINE.ordinal
@@ -66,7 +103,10 @@ class MedicineAdapter(private val callback: OnClickListener) :
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.card_medicine, parent, false)
                 val binding = CardMedicineBinding.bind(view)
-                MedicineItemHolder(binding)
+
+                val viewHolder = MedicineItemHolder(binding)
+                binding.lifecycleOwner = viewHolder
+                viewHolder
             }
 
             ViewType.LOADING.ordinal -> {
@@ -88,9 +128,8 @@ class MedicineAdapter(private val callback: OnClickListener) :
 
     override fun getItemCount(): Int {
         this.callback.listUpdated(super.getItemCount(), networkState)
-        return super.getItemCount() + if(hasExtraRow() && super.getItemCount() != 0) 1 else 0
+        return super.getItemCount() + if (hasExtraRow() && super.getItemCount() != 0) 1 else 0
     }
-
 
     private fun hasExtraRow() = networkState != null && networkState != NetworkState.SUCCESS
 
@@ -103,12 +142,12 @@ class MedicineAdapter(private val callback: OnClickListener) :
 
         if (hadExtraRow != currentExtraRow) {
             if (hadExtraRow) {
-                notifyItemRemoved(itemCount-1)
+                notifyItemRemoved(itemCount - 1)
             } else {
-                notifyItemInserted(itemCount-1)
+                notifyItemInserted(itemCount - 1)
             }
         } else if (currentExtraRow && lastState != newNetworkState) {
-            notifyItemChanged(itemCount-1)
+            notifyItemChanged(itemCount - 1)
         }
     }
 
