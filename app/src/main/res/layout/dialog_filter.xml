@@ -1,155 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bg_filter"
-    android:orientation="vertical"
-    android:padding="24dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="model"
+            type="ru.app.apteka.viewmodels.MedicineModel" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@drawable/bg_filter"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/filter"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_close_black_24dp"
+                android:tint="@color/colorPrimaryDark"
+                android:background="@drawable/bg_round_color"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{v->model.closeFilter()}"/>
+        </LinearLayout>
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-medium"
-            android:text="Фильтр"
+            android:text="@string/sort"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
-        <ImageView
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asc"
+                android:textColor="@color/colorPrimary"
+                android:checked="@{model.filter.sortIndex == 0}"
+                android:onClick="@{v->model.setSortIndex(0)}"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/desc"
+                android:textColor="@color/colorPrimary"
+                android:checked="@{model.filter.sortIndex == 1}"
+                android:onClick="@{v->model.setSortIndex(1)}"/>
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorGrayLight" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_close_black_24dp"
-            android:tint="@color/colorPrimaryDark" />
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/price"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:hint="@string/from"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@{model.filter.priceFromString()}"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:hint="@string/to"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@{model.filter.priceToString()}"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+            android:id="@+id/range_price_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:bar_color="@color/colorGrayLight"
+            app:bar_highlight_color="@color/colorAccent"
+            app:left_thumb_color="@color/colorAccent"
+            app:left_thumb_color_pressed="@color/colorAccent"
+            app:max_value="20000"
+            app:min_value="0"
+            app:right_thumb_color="@color/colorAccent"
+            app:right_thumb_color_pressed="@color/colorAccent"
+            app:steps="100"
+            app:data_type="_integer" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorGrayLight" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/available"
+            android:textColor="@color/colorPrimary"
+            android:checked="@={model.filter.available}"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/bg_round_color"
+            android:backgroundTint="@color/colorAccent"
+            android:fontFamily="sans-serif"
+            android:stateListAnimator="@null"
+            android:text="@string/apply_filter"
+            android:textColor="@android:color/white"
+            android:onClick="@{v->model.applyFilter()}"/>
+
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Сортировать"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="По возрастанию цены"
-            android:textColor="@color/colorPrimary" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="По убыванию цены"
-            android:textColor="@color/colorPrimary" />
-    </RadioGroup>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/colorGrayLight" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:text="Цена"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="false"
-                android:enabled="false"
-                android:hint="От"
-                android:inputType="numberDecimal"
-                android:text="0 P"
-                android:textColor="@color/colorPrimary" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="false"
-                android:enabled="false"
-                android:hint="До"
-                android:inputType="numberDecimal"
-                android:text="20000 P"
-                android:textColor="@color/colorPrimary" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-    <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:bar_color="@color/colorGrayLight"
-        app:bar_highlight_color="@color/colorAccent"
-        app:data_type="_integer"
-        app:left_thumb_color="@color/colorAccent"
-        app:left_thumb_color_pressed="@android:color/holo_blue_dark"
-        app:max_value="20000"
-        app:min_value="0"
-        app:right_thumb_color="@color/colorAccent"
-        app:right_thumb_color_pressed="@android:color/holo_blue_dark"
-        app:steps="100" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/colorGrayLight" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Показывать в наличии"
-        android:textColor="@color/colorPrimary" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="0dp"
-        android:background="@drawable/bg_round_color"
-        android:backgroundTint="@color/colorAccent"
-        android:fontFamily="sans-serif"
-        android:text="Применить фильтр"
-        android:textColor="@android:color/white"
-        android:stateListAnimator="@null"/>
-
-</LinearLayout>
+</layout>

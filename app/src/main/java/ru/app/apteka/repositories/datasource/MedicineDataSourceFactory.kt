@@ -1,8 +1,10 @@
 package ru.app.apteka.repositories.datasource
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import kotlinx.coroutines.CoroutineScope
+import ru.app.apteka.models.Filter
 import ru.app.apteka.models.Medicine
 import ru.app.apteka.repositories.MedicineRepository
 
@@ -10,13 +12,13 @@ class MedicineDataSourceFactory(
     private val scope: CoroutineScope,
     private val repository: MedicineRepository,
     private var categoryId: Int = 0,
-    private var query: String = ""
-): DataSource.Factory<Int, Medicine>() {
+    private var query: String = "",
+    private var filter: Filter? = null
+) : DataSource.Factory<Int, Medicine>() {
 
     val source = MutableLiveData<MedicineDataSource>()
-
     override fun create(): DataSource<Int, Medicine> {
-        val src  =MedicineDataSource(scope, repository, query, categoryId)
+        val src = MedicineDataSource(scope, repository, query, categoryId, filter)
         source.postValue(src)
         return src
     }
@@ -25,13 +27,14 @@ class MedicineDataSourceFactory(
 
     fun getSource() = source.value
 
-    fun updateQuery(query: String){
+    fun updateQuery(query: String) {
         this.query = query
         getSource()?.refresh()
     }
 
-    fun updateQuery(id:Int){
+    fun updateQuery(id: Int, filter: Filter?) {
         this.categoryId = id
+        this.filter = filter
         getSource()?.refresh()
     }
 }

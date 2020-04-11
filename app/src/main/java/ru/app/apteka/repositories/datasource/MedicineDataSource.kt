@@ -10,6 +10,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.app.apteka.models.Filter
 import ru.app.apteka.models.Medicine
 import ru.app.apteka.network.NetworkState
 import ru.app.apteka.repositories.MedicineRepository
@@ -18,18 +19,18 @@ class MedicineDataSource(
     private val scope: CoroutineScope,
     private val repository: MedicineRepository,
     private val query: String,
-    private val categoryId: Int
+    private val categoryId: Int,
+    private val filter:Filter?
 ) : PositionalDataSource<Medicine>() {
 
     private var supervisorJob = SupervisorJob()
     private val networkState = MutableLiveData<NetworkState>()
     private var retryQuery: (() -> Any)? = null
 
-
     private var lastCount = 0
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Medicine>) {
-        if(lastCount == 20){
+        if (lastCount == 20) {
             retryQuery = { loadRange(params, callback) }
             executeQuery(
                 offset = params.startPosition,
@@ -41,11 +42,11 @@ class MedicineDataSource(
     }
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Medicine>) {
-        retryQuery = {loadInitial(params, callback)}
+        retryQuery = { loadInitial(params, callback) }
         executeQuery(
             offset = params.requestedStartPosition,
             count = params.requestedLoadSize
-        ){
+        ) {
             lastCount = it.size
             callback.onResult(it, 0)
         }
@@ -60,11 +61,16 @@ class MedicineDataSource(
         networkState.postValue(NetworkState.RUNNING)
         scope.launch(getErrorHandler() + supervisorJob) {
             delay(500)
+
             val medicines = repository.getMedicine(
                 offset = offset,
                 count = count,
                 q = query,
-                categoryId = categoryId
+                categoryId = categoryId,
+                order = filter?.let { if (it.sortIndex == 0) "asc" else "desc" } ?: "asc",
+                priceTo = filter?.priceTo ?: 20000,
+                priceFrom = filter?.priceFrom ?: 0,
+                available = filter?.available ?: false
             )
             retryQuery = null
             networkState.postValue(NetworkState.SUCCESS)
@@ -77,11 +83,11 @@ class MedicineDataSource(
         networkState.postValue(NetworkState.FAILED)
     }
 
-    fun getNetworkState():LiveData<NetworkState> = networkState
+    fun getNetworkState(): LiveData<NetworkState> = networkState
 
     fun refresh() = this.invalidate()
 
-    fun retryFailedQuery(){
+    fun retryFailedQuery() {
         val lastQuery = retryQuery
         retryQuery = null
         lastQuery?.invoke()

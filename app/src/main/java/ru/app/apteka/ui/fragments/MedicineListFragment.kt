@@ -1,6 +1,7 @@
 package ru.app.apteka.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
@@ -10,14 +11,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
 import kotlinx.android.synthetic.main.fragment_medicine.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.app.apteka.R
+import ru.app.apteka.databinding.DialogFilterBinding
 import ru.app.apteka.network.NetworkState
 import ru.app.apteka.ui.activities.MainActivity
 import ru.app.apteka.ui.adapters.MedicineAdapter
@@ -75,9 +79,19 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
 
     private fun createDialogFilter() {
         val builder = AlertDialog.Builder(activity as MainActivity, R.style.Dialog)
-        val view =
-            LayoutInflater.from(activity as MainActivity).inflate(R.layout.dialog_filter, null)
-        builder.setView(view)
+        val bind = DataBindingUtil.inflate<DialogFilterBinding>(LayoutInflater.from(this.context), R.layout.dialog_filter,null, false)
+        bind.lifecycleOwner = this
+        val range = bind.root.findViewById<CrystalRangeSeekbar>(R.id.range_price_dialog)
+        range.setMaxStartValue(medicineModel.filter.value?.priceTo?.toFloat()!!)
+        range.setMinStartValue(medicineModel.filter.value?.priceFrom?.toFloat()!!)
+        range.apply()
+        range.setOnRangeSeekbarChangeListener { minValue, maxValue ->
+            val filter = medicineModel.filter.value?.copy(priceFrom = minValue.toInt(), priceTo = maxValue.toInt())
+            medicineModel.filter.value = filter
+        }
+
+        bind.model = medicineModel
+        builder.setView(bind.root)
         dialogFilter = builder.create()
     }
 
@@ -86,18 +100,24 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    private fun showFilter() {
+        dialogFilter.show()
+
+        // configure window position (bottom full width)
+        val window = dialogFilter.window
+        val params = window?.attributes
+        params?.gravity = Gravity.BOTTOM
+        window?.attributes = params
+        window?.setLayout(
+            GridLayoutManager.LayoutParams.MATCH_PARENT,
+            GridLayoutManager.LayoutParams.WRAP_CONTENT
+        )
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_filter -> {
-                dialogFilter.show()
-                val window = dialogFilter.window
-                val params = window?.attributes
-                params?.gravity = Gravity.BOTTOM
-                window?.attributes = params
-                window?.setLayout(
-                    GridLayoutManager.LayoutParams.MATCH_PARENT,
-                    GridLayoutManager.LayoutParams.WRAP_CONTENT
-                )
+                showFilter()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -131,6 +151,10 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
 
         medicineModel.networkState?.observe(viewLifecycleOwner, Observer {
             medicineAdapter.updateNetworkState(it)
+        })
+
+        medicineModel.closeFilterDialog.observe(viewLifecycleOwner, Observer {
+            dialogFilter.dismiss()
         })
     }
 

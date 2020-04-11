@@ -7,5 +7,5 @@ import ru.app.apteka.viewmodels.MedicineModel
 
 val viewModelModule = module {
     viewModel { CatalogModel(get()) }
-    viewModel { (categoryId:Int)-> MedicineModel(categoryId, get()) }
+    viewModel { (categoryId:Int)-> MedicineModel(categoryId, get(), get()) }
 }

@@ -74,7 +74,7 @@ val medicines = """
           "categoryId": 2,
           "categoryName": "Против гриппа",
           "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
-          "price": 1234,
+          "price": 100,
           "rating": 4,
           "available": true
         },
@@ -84,7 +84,7 @@ val medicines = """
           "categoryId": 2,
           "categoryName": "Против гриппа",
           "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
-          "price": 1234,
+          "price": 200,
           "rating": 4,
           "available": true
         },
@@ -94,7 +94,7 @@ val medicines = """
           "categoryId": 2,
           "categoryName": "Против гриппа",
           "image": "https://farmlend.ru/assets/thumbnails/d8/d881b2d1411c8e45a5271554f3b5cdcb.jpg",
-          "price": 1234,
+          "price": 300,
           "rating": 4,
           "available": true
         },
