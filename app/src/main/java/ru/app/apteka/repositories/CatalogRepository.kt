@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import ru.app.apteka.models.Category
 import ru.app.apteka.utils.DataGenerator
 import ru.app.apteka.utils.json2Category
+import java.lang.Exception
 
 class CatalogRepository {
 

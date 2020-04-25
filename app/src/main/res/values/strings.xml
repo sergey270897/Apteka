@@ -16,4 +16,6 @@
     <string name="to">До</string>
     <string name="available">Показывать в наличии</string>
     <string name="apply_filter">Применить фильтр</string>
+    <string name="cart">Корзина</string>
+    <string name="empty_cart">В корзине пусто ¯\\_(ツ)_/¯</string>
 </resources>

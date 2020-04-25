@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import kotlinx.coroutines.launch
 import ru.app.apteka.models.Filter
+import ru.app.apteka.models.MedicineCart
 import ru.app.apteka.network.NetworkState
 import ru.app.apteka.repositories.MedicineRepository
 import ru.app.apteka.repositories.datasource.MedicineDataSourceFactory
@@ -15,10 +17,9 @@ import ru.app.apteka.ui.base.BaseViewModel
 
 class MedicineModel(
     val categoryId: Int,
-    repository: MedicineRepository,
+    private val repository: MedicineRepository,
     private val sharedPrefsManager: SharedPrefsManager
 ) : BaseViewModel() {
-
     private val medicineDataSource = MedicineDataSourceFactory(
         repository = repository,
         scope = ioScope
@@ -32,6 +33,7 @@ class MedicineModel(
     val closeFilterDialog = MutableLiveData(false)
     val medicines = LivePagedListBuilder(medicineDataSource, getConfig()).build()
     val filter = MutableLiveData<Filter>()
+
 
     init {
         if (categoryId != 0) {
@@ -79,5 +81,17 @@ class MedicineModel(
 
     fun closeFilter(){
         closeFilterDialog.value = !closeFilterDialog.value!!
+    }
+
+    fun deleteCartItem(item: MedicineCart) {
+        ioScope.launch {
+            repository.deleteCartItem(item)
+        }
+    }
+
+    fun addCartItem(item: MedicineCart) {
+        ioScope.launch {
+            repository.addCartItem(item)
+        }
     }
 }

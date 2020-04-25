@@ -24,8 +24,7 @@ class MedicineAdapter(private val callback: OnClickListener) :
     private var networkState: NetworkState? = null
 
     interface OnClickListener {
-        fun onClickBuy()
-        fun onClickCount()
+        fun onClickBuy(item:Medicine)
         fun onClickRefresh()
         fun listUpdated(size: Int, networkState: NetworkState?)
     }
@@ -57,12 +56,15 @@ class MedicineAdapter(private val callback: OnClickListener) :
                 binding.medicine = item
                 binding.btnBuyMedicineCard.setOnClickListener {
                     item.count.value = item.count.value?.plus(1)
+                    callback.onClickBuy(item)
                 }
                 binding.btnDecMedicineCard.setOnClickListener {
                     item.count.value = item.count.value?.minus(1)
+                    callback.onClickBuy(item)
                 }
                 binding.btnIncMedicineCard.setOnClickListener {
                     item.count.value = item.count.value?.plus(1)
+                    callback.onClickBuy(item)
                 }
             }
         }
@@ -162,8 +164,5 @@ class MedicineAdapter(private val callback: OnClickListener) :
     }
 }
 
-@BindingAdapter("app:url", "app:errorImage")
-fun loadImage(image: ImageView, url: String, errorImage: Drawable) {
-    Picasso.get().load(url).error(errorImage).into(image)
-}
+
 

@@ -107,7 +107,8 @@
                     android:hint="@string/from"
                     android:inputType="numberDecimal"
                     android:textColor="@color/colorPrimary"
-                    android:text="@{model.filter.priceFromString()}"/>
+                    android:text="@{model.filter.priceFromString()}"
+                    android:background="@android:color/white"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -124,7 +125,8 @@
                     android:hint="@string/to"
                     android:inputType="numberDecimal"
                     android:textColor="@color/colorPrimary"
-                    android:text="@{model.filter.priceToString()}"/>
+                    android:text="@{model.filter.priceToString()}"
+                    android:background="@android:color/white"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -160,11 +162,11 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="38dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="0dp"
             android:background="@drawable/bg_round_color"
-            android:backgroundTint="@color/colorAccent"
+            app:backgroundTint="@color/colorAccent"
             android:fontFamily="sans-serif"
             android:stateListAnimator="@null"
             android:text="@string/apply_filter"

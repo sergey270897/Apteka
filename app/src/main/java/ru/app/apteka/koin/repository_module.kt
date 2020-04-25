@@ -5,6 +5,7 @@ import ru.app.apteka.repositories.CatalogRepository
 import ru.app.apteka.repositories.MedicineRepository
 
 val repositoryModule = module {
+
     factory { CatalogRepository() }
-    factory { MedicineRepository() }
+    factory { MedicineRepository(get())}
 }

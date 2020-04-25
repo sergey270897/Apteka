@@ -22,6 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.app.apteka.R
 import ru.app.apteka.databinding.DialogFilterBinding
+import ru.app.apteka.models.Medicine
 import ru.app.apteka.network.NetworkState
 import ru.app.apteka.ui.activities.MainActivity
 import ru.app.apteka.ui.adapters.MedicineAdapter
@@ -79,14 +80,22 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
 
     private fun createDialogFilter() {
         val builder = AlertDialog.Builder(activity as MainActivity, R.style.Dialog)
-        val bind = DataBindingUtil.inflate<DialogFilterBinding>(LayoutInflater.from(this.context), R.layout.dialog_filter,null, false)
+        val bind = DataBindingUtil.inflate<DialogFilterBinding>(
+            LayoutInflater.from(this.context),
+            R.layout.dialog_filter,
+            null,
+            false
+        )
         bind.lifecycleOwner = viewLifecycleOwner
         val range = bind.root.findViewById<CrystalRangeSeekbar>(R.id.range_price_dialog)
         range.setMaxStartValue(medicineModel.filter.value?.priceTo?.toFloat()!!)
         range.setMinStartValue(medicineModel.filter.value?.priceFrom?.toFloat()!!)
         range.apply()
         range.setOnRangeSeekbarChangeListener { minValue, maxValue ->
-            val filter = medicineModel.filter.value?.copy(priceFrom = minValue.toInt(), priceTo = maxValue.toInt())
+            val filter = medicineModel.filter.value?.copy(
+                priceFrom = minValue.toInt(),
+                priceTo = maxValue.toInt()
+            )
             medicineModel.filter.value = filter
         }
 
@@ -156,6 +165,7 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
         medicineModel.closeFilterDialog.observe(viewLifecycleOwner, Observer {
             dialogFilter.dismiss()
         })
+
     }
 
     private fun configureMenu(menu: Menu) {
@@ -205,12 +215,12 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
             if (size == 0 && networkState == NetworkState.RUNNING) View.VISIBLE else View.GONE
     }
 
-    override fun onClickBuy() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onClickCount() {
-        TODO("Not yet implemented")
+    override fun onClickBuy(item: Medicine) {
+        Log.d("M__MedicineListFragment","$item")
+        if (item.count.value!! > 0)
+            medicineModel.addCartItem(item = item.toMedicineCart())
+        else
+            medicineModel.deleteCartItem(item = item.toMedicineCart())
     }
 
     override fun onClickRefresh() {

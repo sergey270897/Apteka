@@ -2,7 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <import type="ru.app.apteka.network.NetworkState" />
+
         <import type="android.view.View" />
 
         <variable
@@ -28,19 +30,20 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/error"
-            android:visibility="@{state == NetworkState.FAILED? View.VISIBLE: View.GONE}"/>
+            android:visibility="@{state == NetworkState.FAILED? View.VISIBLE: View.GONE}" />
 
         <Button
             android:id="@+id/btn_refresh_medicine_card"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="36dp"
             android:layout_below="@id/tv_state_medicine_card"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
-            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"
             android:text="@string/refresh"
+            android:background="@android:color/transparent"
             android:textColor="@color/colorAccent"
-            android:visibility="@{state == NetworkState.FAILED? View.VISIBLE: View.GONE}"/>
-
+            android:visibility="@{state == NetworkState.FAILED? View.VISIBLE: View.GONE}" />
     </RelativeLayout>
 </layout>

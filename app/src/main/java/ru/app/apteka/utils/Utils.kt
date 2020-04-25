@@ -44,7 +44,7 @@ fun json2Medicine(obj: JSONObject): List<Medicine> {
     val res = mutableListOf<Medicine>()
     for (i in 0 until arr.length()) {
         val med = Medicine(
-            id = arr.getJSONObject(i).getInt("id"),
+            id = arr.getJSONObject(i).getLong("id"),
             title = arr.getJSONObject(i).getString("title"),
             categoryId = arr.getJSONObject(i).getInt("categoryId"),
             categoryName = arr.getJSONObject(i).getString("categoryName"),

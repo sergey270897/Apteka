@@ -3,88 +3,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="android.view.View" />
+        <import type="android.view.View"/>
 
         <variable
             name="medicine"
-            type="ru.app.apteka.models.Medicine" />
+            type="ru.app.apteka.models.MedicineCart" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:background="@drawable/bg_round_color"
         android:elevation="2dp"
-        android:orientation="vertical"
         android:padding="16dp">
 
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
+            android:id="@+id/iv_img_cart"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/placeholder"
             app:errorImage="@{@drawable/placeholder}"
-            app:url="@{medicine.image}" />
+            app:url="@{medicine.image}"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/tv_title_cart"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/iv_img_cart"
             android:ellipsize="end"
-            android:lines="2"
             android:maxLines="2"
-            android:text="@{medicine.title}" />
+            android:text="@{medicine.title}"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:fontFamily="sans-serif-medium"
+            android:layout_height="36dp"
+            android:layout_below="@id/tv_title_cart"
+            android:layout_alignStart="@id/tv_title_cart"
+            android:layout_marginTop="17dp"
             android:text="@{medicine.priceString()}"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="@string/not_available"
-            android:textColor="@color/colorRed"
             android:textSize="16sp"
-            android:visibility="@{medicine.available? View.GONE : View.VISIBLE}" />
-
-        <Button
-            android:id="@+id/btn_buy_medicine_card"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_round_color"
-            app:backgroundTint="@color/colorAccent"
-            app:icon="@drawable/ic_add_shopping_cart_black_18dp"
-            android:drawableTint="@android:color/white"
-            android:fontFamily="sans-serif-light"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:stateListAnimator="@null"
-            android:text="@string/buy"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:visibility="@{(medicine.count == 0 &amp;&amp; medicine.available) ? View.VISIBLE : View.GONE}" />
+            android:gravity="center"
+            android:fontFamily="sans-serif-medium"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_title_cart"
+            android:layout_alignParentEnd="true"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            android:visibility="@{medicine.count > 0? View.VISIBLE : View.GONE}">
+            android:orientation="horizontal">
 
             <Button
                 android:padding="0dp"
-                android:id="@+id/btn_dec_medicine_card"
+                android:id="@+id/btn_dec_cart_card"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="@drawable/bg_round_color"
@@ -98,13 +74,13 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="6dp"
                 android:gravity="center"
-                android:text="@{String.valueOf(medicine.count)}"
                 android:maxLength="3"
+                android:text="@{String.valueOf(medicine.count)}"
                 android:textSize="18sp" />
 
             <Button
                 android:padding="0dp"
-                android:id="@+id/btn_inc_medicine_card"
+                android:id="@+id/btn_inc_cart_card"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="@drawable/bg_round_color"
@@ -112,5 +88,6 @@
                 android:text="+"
                 android:textColor="@android:color/white" />
         </LinearLayout>
-    </LinearLayout>
+
+    </RelativeLayout>
 </layout>

@@ -1,11 +1,12 @@
 package ru.app.apteka.repositories.datasource
 
-import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import kotlinx.coroutines.CoroutineScope
 import ru.app.apteka.models.Filter
 import ru.app.apteka.models.Medicine
+import ru.app.apteka.models.MedicineCart
 import ru.app.apteka.repositories.MedicineRepository
 
 class MedicineDataSourceFactory(
@@ -19,6 +20,7 @@ class MedicineDataSourceFactory(
     val source = MutableLiveData<MedicineDataSource>()
     override fun create(): DataSource<Int, Medicine> {
         val src = MedicineDataSource(scope, repository, query, categoryId, filter)
+        val cart = repository.getCartItems()
         source.postValue(src)
         return src
     }

@@ -52,6 +52,8 @@ class MedicineDataSource(
         }
     }
 
+
+
     override fun invalidate() {
         super.invalidate()
         supervisorJob.cancelChildren()
@@ -72,11 +74,20 @@ class MedicineDataSource(
                 priceFrom = filter?.priceFrom ?: 0,
                 available = filter?.available ?: false
             )
+
+            val cart = repository.getCartItemsList()
+            medicines.forEach {listItem->
+                cart.forEach { cartItem ->
+                    if (listItem.id == cartItem.id) listItem.count = cartItem.count
+                }
+            }
+
             retryQuery = null
             networkState.postValue(NetworkState.SUCCESS)
             callback(medicines)
         }
     }
+
 
     private fun getErrorHandler() = CoroutineExceptionHandler { _, e ->
         Log.d("M__MedicineDataSource", "An error happened: $e")

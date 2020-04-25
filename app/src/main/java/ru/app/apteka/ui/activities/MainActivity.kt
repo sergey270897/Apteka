@@ -2,6 +2,7 @@ package ru.app.apteka.ui.activities
 
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.app.apteka.R
+import ru.app.apteka.ui.fragments.CartFragment
 import ru.app.apteka.ui.fragments.CatalogFragment
 import ru.app.apteka.ui.fragments.MedicineListFragment
 import ru.app.apteka.utils.dpToPx
@@ -23,21 +25,44 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initToolbar()
+        initBottomMenu()
+    }
 
-        val fragment = supportFragmentManager.findFragmentByTag(CatalogFragment::class.simpleName)
-        if (fragment == null) {
-            supportFragmentManager.beginTransaction()
-                .add(
-                    R.id.container,
-                    CatalogFragment.getInstance(
-                        CatalogFragment.TypeCatalog.GROUP,
-                        getString(R.string.app_name),
-                        0
-                    ),
-                    CatalogFragment::class.simpleName
-                )
-                .commit()
+    private fun initBottomMenu() {
+        bottom_menu.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.catalog -> openCatalog()
+                R.id.cart -> openCart()
+            }
+            true
         }
+        bottom_menu.selectedItemId = R.id.catalog
+
+        val badge = bottom_menu.getOrCreateBadge(R.id.cart)
+        badge.number = 2
+        badge.isVisible = true
+        badge.backgroundColor = getColor(R.color.colorRed)
+    }
+
+    private fun openCart() {
+        startFragment(
+            R.id.container,
+            CartFragment(),
+            CartFragment::class.simpleName!!
+        )
+    }
+
+    private fun openCatalog() {
+        startFragment(
+            R.id.container,
+            CatalogFragment.getInstance(
+                CatalogFragment.TypeCatalog.GROUP,
+                getString(R.string.app_name),
+                0
+            ),
+            CatalogFragment::class.simpleName!!,
+            supportFragmentManager.backStackEntryCount != 0
+        )
     }
 
     private fun openSearchView() {
@@ -48,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    private fun initMenu(menu: Menu?) {
         menuInflater.inflate(R.menu.menu_search, menu)
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as? SearchView
@@ -83,9 +108,14 @@ class MainActivity : AppCompatActivity() {
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 supportFragmentManager.popBackStack()
-                return true
+                supportFragmentManager.popBackStack()
+                return false
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        initMenu(menu)
         return true
     }
 
@@ -93,6 +123,17 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
             supportFragmentManager.popBackStack()
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val index = supportFragmentManager.backStackEntryCount - 1
+        val tag:String = if(index < 0) CatalogFragment::class.simpleName.toString() else supportFragmentManager.getBackStackEntryAt(index).name.toString()
+        when{
+            tag.contains(CatalogFragment::class.simpleName.toString()) ->  bottom_menu.menu.findItem(R.id.catalog).isChecked = true
+            tag.contains(MedicineListFragment::class.simpleName.toString()) ->  bottom_menu.menu.findItem(R.id.catalog).isChecked = true
+            tag.contains(CartFragment::class.simpleName.toString()) ->  bottom_menu.menu.findItem(R.id.cart).isChecked = true
         }
     }
 }

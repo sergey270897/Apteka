@@ -1,11 +1,14 @@
 package ru.app.apteka.repositories
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import ru.app.apteka.models.Medicine
+import ru.app.apteka.models.MedicineCart
+import ru.app.apteka.models.MedicineDao
 import ru.app.apteka.utils.DataGenerator
 import ru.app.apteka.utils.json2Medicine
 
-class MedicineRepository {
+class MedicineRepository(private val medicineDao: MedicineDao) {
 
     suspend fun getMedicine(
         q: String = "",
@@ -30,4 +33,14 @@ class MedicineRepository {
         Thread.sleep(3000)
         return list
     }
+
+    fun getCartItems():LiveData<List<MedicineCart>> = medicineDao.getAll()
+
+    fun getCartItemsList():List<MedicineCart> = medicineDao.getAllList()
+
+    suspend fun addCartItem(medicineCart: MedicineCart) = medicineDao.add(medicineCart)
+
+    suspend fun updateCartItem(medicineCart: MedicineCart) = medicineDao.update(medicineCart)
+
+    suspend fun deleteCartItem(medicineCart: MedicineCart) = medicineDao.delete(medicineCart)
 }
