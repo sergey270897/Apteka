@@ -38,10 +38,10 @@ class MainActivity : AppCompatActivity() {
         }
         bottom_menu.selectedItemId = R.id.catalog
 
-        val badge = bottom_menu.getOrCreateBadge(R.id.cart)
-        badge.number = 2
-        badge.isVisible = true
-        badge.backgroundColor = getColor(R.color.colorRed)
+        // val badge = bottom_menu.getOrCreateBadge(R.id.cart)
+        // badge.number = 2
+        // badge.isVisible = true
+        // badge.backgroundColor = getColor(R.color.colorRed)
     }
 
     private fun openCart() {

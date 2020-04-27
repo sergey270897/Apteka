@@ -1,5 +1,6 @@
 package ru.app.apteka.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
@@ -14,20 +15,23 @@ import ru.app.apteka.models.MedicineCart
 class CartAdapter(private val callback: OnClickListener) :
     RecyclerView.Adapter<CartAdapter.CartHolder>() {
     interface OnClickListener {
-        fun onClickCount()
+        fun onClickCount(item: MedicineCart)
     }
 
     inner class CartHolder(private val binding: CardCartBinding) :
         RecyclerView.ViewHolder(binding.root), LifecycleOwner {
+
         fun bind(item: MedicineCart) {
             binding.let {
                 binding.medicine = item
                 binding.btnDecCartCard.setOnClickListener {
                     item.count.value = item.count.value?.minus(1)
+                    callback.onClickCount(item)
                 }
 
                 binding.btnIncCartCard.setOnClickListener {
                     item.count.value = item.count.value?.plus(1)
+                    callback.onClickCount(item)
                 }
             }
         }
@@ -35,11 +39,11 @@ class CartAdapter(private val callback: OnClickListener) :
         private val lifecycle = LifecycleRegistry(this)
 
         init {
-            lifecycle.currentState = Lifecycle.State.STARTED
+            lifecycle.currentState = Lifecycle.State.INITIALIZED
         }
 
         fun markAttach() {
-            lifecycle.currentState = Lifecycle.State.INITIALIZED
+            lifecycle.currentState = Lifecycle.State.STARTED
         }
 
         fun markDetach() {
@@ -73,7 +77,7 @@ class CartAdapter(private val callback: OnClickListener) :
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_cart, parent, false)
         val binding = CardCartBinding.bind(view)
         val viewHolder = CartHolder(binding)
-        //binding.lifecycleOwner = viewHolder
+        binding.lifecycleOwner = viewHolder
         return viewHolder
     }
 

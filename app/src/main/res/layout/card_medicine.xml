@@ -62,8 +62,6 @@
             android:layout_height="36dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_round_color"
-            app:backgroundTint="@color/colorAccent"
-            app:icon="@drawable/ic_add_shopping_cart_black_18dp"
             android:drawableTint="@android:color/white"
             android:fontFamily="sans-serif-light"
             android:paddingStart="16dp"
@@ -72,7 +70,9 @@
             android:text="@string/buy"
             android:textColor="@android:color/white"
             android:textSize="14sp"
-            android:visibility="@{(medicine.count == 0 &amp;&amp; medicine.available) ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{(medicine.count == 0 &amp;&amp; medicine.available) ? View.VISIBLE : View.GONE}"
+            app:backgroundTint="@color/colorAccent"
+            app:icon="@drawable/ic_add_shopping_cart_black_18dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -83,14 +83,14 @@
             android:visibility="@{medicine.count > 0? View.VISIBLE : View.GONE}">
 
             <Button
-                android:padding="0dp"
                 android:id="@+id/btn_dec_medicine_card"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="@drawable/bg_round_color"
-                app:backgroundTint="@color/colorAccent"
+                android:padding="0dp"
                 android:text="-"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/colorAccent" />
 
             <TextView
                 android:layout_width="40dp"
@@ -98,19 +98,19 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="6dp"
                 android:gravity="center"
-                android:text="@{String.valueOf(medicine.count)}"
                 android:maxLength="3"
+                android:text="@{String.valueOf(medicine.count)}"
                 android:textSize="18sp" />
 
             <Button
-                android:padding="0dp"
                 android:id="@+id/btn_inc_medicine_card"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="@drawable/bg_round_color"
-                app:backgroundTint="@color/colorAccent"
+                android:padding="0dp"
                 android:text="+"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/colorAccent" />
         </LinearLayout>
     </LinearLayout>
 </layout>

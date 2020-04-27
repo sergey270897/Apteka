@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,8 @@ import kotlinx.android.synthetic.main.fragment_cart.*
 import org.koin.androidx.viewmodel.compat.ScopeCompat.viewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.app.apteka.R
+import ru.app.apteka.databinding.FragmentCartBinding
+import ru.app.apteka.models.MedicineCart
 import ru.app.apteka.repositories.MedicineRepository
 import ru.app.apteka.ui.activities.MainActivity
 import ru.app.apteka.ui.adapters.CartAdapter
@@ -28,7 +31,10 @@ class CartFragment : Fragment(), CartAdapter.OnClickListener{
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_cart, null, false)
+        val binding = DataBindingUtil.inflate<FragmentCartBinding>(inflater, R.layout.fragment_cart, container, false)
+        binding.cart = cartModel
+        binding.lifecycleOwner = this
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,6 +63,8 @@ class CartFragment : Fragment(), CartAdapter.OnClickListener{
 
     private fun initObservers(){
         cartModel.getCartItems().observe(viewLifecycleOwner, Observer {
+            cartModel.setTotal(it)
+
             progress_cart.visibility = View.GONE
             if(it.isEmpty()) {
                 tv_state_cart.visibility = View.VISIBLE
@@ -69,7 +77,8 @@ class CartFragment : Fragment(), CartAdapter.OnClickListener{
         })
     }
 
-    override fun onClickCount() {
-        TODO("Not yet implemented")
+    override fun onClickCount(item:MedicineCart) {
+        if(item.count.value == 0) cartModel.deleteCartItem(item)
+        else cartModel.updateCartItem(item)
     }
 }
