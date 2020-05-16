@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageButton
+        android:id="@+id/auth_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_back_black_24dp"
+        android:background="@drawable/bg_image_btn_dark"/>
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        android:text="@string/accept"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_marginTop="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/codeTextHint"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/auth_code"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/code"
+                android:background="@android:color/white"
+                android:singleLine="true"
+                android:inputType="numberDecimal"
+                android:maxLength="6"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ProgressBar
+            android:layout_alignEnd="@id/auth_code"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignBottom="@id/auth_code"
+            android:layout_marginBottom="16dp"/>
+    </RelativeLayout>
+
+
+    <TextView
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:text="Получить код повторно"
+        android:clickable="false"
+        android:background="@drawable/bg_round_color"/>
+
+<!--     android:text="Получить повторно код можно через 00:59"-->
+
+    <Button
+        android:layout_marginTop="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/enter"
+        android:background="@drawable/bg_round_color"/>
+</LinearLayout>

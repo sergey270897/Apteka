@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 
 import org.junit.Assert.*
 import ru.app.apteka.utils.DataGenerator
-import ru.app.apteka.utils.Utils
+import ru.app.apteka.utils.extensions.simpleValidationEmail
 
 /**
  * Instrumented test, which will execute on an Android device.

@@ -35,6 +35,9 @@ interface MedicineDao{
     @Query("select * from cart")
     fun getAllList(): List<MedicineCart>
 
+    @Query("select count(*) from cart")
+    fun getCount(): LiveData<Int>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(medicine: MedicineCart)
 

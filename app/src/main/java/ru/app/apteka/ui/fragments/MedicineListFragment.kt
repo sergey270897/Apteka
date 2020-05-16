@@ -68,8 +68,8 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setHasOptionsMenu(true)
+        (activity as MainActivity).supportActionBar?.show()
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as MainActivity).supportActionBar?.title = title
 
@@ -115,6 +115,7 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
         // configure window position (bottom full width)
         val window = dialogFilter.window
         val params = window?.attributes
+        params?.windowAnimations = R.style.DialogAnim
         params?.gravity = Gravity.BOTTOM
         window?.attributes = params
         window?.setLayout(

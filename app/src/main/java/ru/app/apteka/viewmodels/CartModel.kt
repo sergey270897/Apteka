@@ -11,6 +11,8 @@ class CartModel(private val repository: MedicineRepository) : BaseViewModel() {
 
     val total = MutableLiveData(0F)
 
+    val count = repository.getCartCount()
+
     fun setTotal(list: List<MedicineCart>) {
         total.value = 0f
         for (a in list) {

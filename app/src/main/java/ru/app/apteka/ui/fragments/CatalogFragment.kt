@@ -67,8 +67,8 @@ class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setHasOptionsMenu(true)
+        (activity as MainActivity).supportActionBar?.show()
         (activity as MainActivity).supportActionBar?.title = title
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(type == TypeCatalog.CATEGORY)
 

@@ -34,6 +34,8 @@ class MedicineRepository(private val medicineDao: MedicineDao) {
         return list
     }
 
+    fun getCartCount():LiveData<Int> = medicineDao.getCount()
+
     fun getCartItems():LiveData<List<MedicineCart>> = medicineDao.getAll()
 
     fun getCartItemsList():List<MedicineCart> = medicineDao.getAllList()

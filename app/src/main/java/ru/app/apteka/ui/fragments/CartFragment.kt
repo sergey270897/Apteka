@@ -40,7 +40,7 @@ class CartFragment : Fragment(), CartAdapter.OnClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-
+        (activity as MainActivity).supportActionBar?.show()
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         (activity as MainActivity).supportActionBar?.title = getString(R.string.cart)
 

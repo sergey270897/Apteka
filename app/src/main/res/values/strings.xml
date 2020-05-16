@@ -18,4 +18,14 @@
     <string name="apply_filter">Применить фильтр</string>
     <string name="cart">Корзина</string>
     <string name="empty_cart">В корзине пусто ¯\\_(ツ)_/¯</string>
+    <string name="profile">Профиль</string>
+    <string name="authTextHint">Ваш e-mail будет сохранен для авторизации и использован для создания заказа.\n\nНа указзанный адрес будет выслан код для подтверждения.</string>
+    <string name="continue_">продолжить</string>
+    <string name="e_mail">E-mail</string>
+    <string name="name">Имя</string>
+    <string name="auth">Авторизация</string>
+    <string name="accept">Подтверждение</string>
+    <string name="code">Код</string>
+    <string name="codeTextHint">На указанный e-mail было отправлено сообщение с кодом подтверждения.</string>
+    <string name="enter">войти</string>
 </resources>

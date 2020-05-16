@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <ru.app.apteka.ui.custom.AvatarImageView
+            android:id="@+id/iv_avatar_profile"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp"
+            app:aiv_initials="S"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_avatar_profile"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_toStartOf="@id/iv_avatar_profile"
+            android:background="@drawable/bg_image_btn_light"
+            android:backgroundTint="@color/colorPrimary"
+            android:padding="8dp"
+            android:src="@drawable/ic_exit_to_app_24dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_avatar_profile"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@id/iv_avatar_profile"
+            android:background="@drawable/bg_image_btn_light"
+            android:backgroundTint="@color/colorPrimary"
+            android:padding="8dp"
+            android:src="@drawable/ic_edit_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_avatar_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="sergey270897@gmail.com"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:errorContentDescription="@string/error"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:singleLine="true"
+            android:text="Sergey"
+            android:hint="@string/name"
+            android:textColor="@color/colorPrimary"
+            android:enabled="false"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/city"
+        android:paddingStart="20dp" />
+</LinearLayout>

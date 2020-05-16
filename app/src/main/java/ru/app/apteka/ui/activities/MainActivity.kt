@@ -1,5 +1,6 @@
 package ru.app.apteka.ui.activities
 
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
@@ -11,21 +12,39 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.androidx.viewmodel.compat.ScopeCompat.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.app.apteka.R
 import ru.app.apteka.ui.fragments.CartFragment
 import ru.app.apteka.ui.fragments.CatalogFragment
 import ru.app.apteka.ui.fragments.MedicineListFragment
+import ru.app.apteka.ui.fragments.ProfileFragment
 import ru.app.apteka.utils.dpToPx
 import ru.app.apteka.utils.extensions.startFragment
+import ru.app.apteka.viewmodels.CartModel
 
 class MainActivity : AppCompatActivity() {
 
+    private val cartModel:CartModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // val intent = Intent(this, AuthActivity::class.java)
+        // startActivity(intent)
+
         setContentView(R.layout.activity_main)
         initToolbar()
         initBottomMenu()
+        initObservers()
+    }
+
+    private fun initObservers() {
+        cartModel.count.observe(this, Observer {
+            showBadgeCount(it)
+        })
     }
 
     private fun initBottomMenu() {
@@ -33,15 +52,26 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.catalog -> openCatalog()
                 R.id.cart -> openCart()
+                R.id.profile -> openProfile()
             }
             true
         }
         bottom_menu.selectedItemId = R.id.catalog
+    }
 
-        // val badge = bottom_menu.getOrCreateBadge(R.id.cart)
-        // badge.number = 2
-        // badge.isVisible = true
-        // badge.backgroundColor = getColor(R.color.colorRed)
+    private fun showBadgeCount(count:Int){
+        val badge = bottom_menu.getOrCreateBadge(R.id.cart)
+        badge.number = count
+        badge.backgroundColor = getColor(R.color.colorRed)
+        badge.isVisible = badge.number != 0
+    }
+
+    private fun openProfile(){
+        startFragment(
+            R.id.container,
+            ProfileFragment(),
+            ProfileFragment::class.simpleName!!
+        )
     }
 
     private fun openCart() {
@@ -134,6 +164,7 @@ class MainActivity : AppCompatActivity() {
             tag.contains(CatalogFragment::class.simpleName.toString()) ->  bottom_menu.menu.findItem(R.id.catalog).isChecked = true
             tag.contains(MedicineListFragment::class.simpleName.toString()) ->  bottom_menu.menu.findItem(R.id.catalog).isChecked = true
             tag.contains(CartFragment::class.simpleName.toString()) ->  bottom_menu.menu.findItem(R.id.cart).isChecked = true
+            tag.contains(ProfileFragment::class.simpleName.toString()) -> bottom_menu.menu.findItem(R.id.profile).isChecked = true
         }
     }
 }

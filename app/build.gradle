@@ -7,6 +7,15 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     defaultConfig {
         applicationId "ru.app.apteka"
         minSdkVersion 23
@@ -35,7 +44,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
@@ -54,7 +63,7 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:2.1.5"
 
 
-    def lifecylce_version = "2.3.0-alpha01"
+    def lifecylce_version = "2.3.0-alpha02"
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecylce_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecylce_version"
