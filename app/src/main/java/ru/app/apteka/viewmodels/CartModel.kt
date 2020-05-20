@@ -1,15 +1,21 @@
 package ru.app.apteka.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.launch
 import ru.app.apteka.models.MedicineCart
 import ru.app.apteka.repositories.MedicineRepository
+import ru.app.apteka.repositories.manager.SharedPrefsManager
 import ru.app.apteka.ui.base.BaseViewModel
 
-class CartModel(private val repository: MedicineRepository) : BaseViewModel() {
+class CartModel(
+    private val repository: MedicineRepository,
+    private val sharedPrefsManager: SharedPrefsManager
+) : BaseViewModel() {
 
     val total = MutableLiveData(0F)
+    val startActivityAuth = MutableLiveData(false)
 
     val count = repository.getCartCount()
 
@@ -32,5 +38,20 @@ class CartModel(private val repository: MedicineRepository) : BaseViewModel() {
         ioScope.launch {
             repository.updateCartItem(item)
         }
+    }
+
+    fun onClickOrder() {
+        if(checkLogin()){
+
+        }
+    }
+
+    fun checkLogin(): Boolean {
+        val profile = sharedPrefsManager.getProfile()
+        return if (profile.token.isNullOrEmpty()) {
+            startActivityAuth.value = true
+            false
+        } else
+            true
     }
 }

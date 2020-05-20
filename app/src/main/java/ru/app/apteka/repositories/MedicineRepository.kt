@@ -2,13 +2,13 @@ package ru.app.apteka.repositories
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import retrofit2.await
 import ru.app.apteka.models.Medicine
 import ru.app.apteka.models.MedicineCart
 import ru.app.apteka.models.MedicineDao
-import ru.app.apteka.utils.DataGenerator
-import ru.app.apteka.utils.json2Medicine
+import ru.app.apteka.network.AptekaAPI
 
-class MedicineRepository(private val medicineDao: MedicineDao) {
+class MedicineRepository(private val aptekaAPI: AptekaAPI, private val medicineDao: MedicineDao) {
 
     suspend fun getMedicine(
         q: String = "",
@@ -21,24 +21,25 @@ class MedicineRepository(private val medicineDao: MedicineDao) {
         orderBy: String = "price",
         order: String = "asc"
     ): List<Medicine> {
-        val response = DataGenerator.getMedicinesApi()
-        var list = json2Medicine(response)
-        if (categoryId != 0) list = list.filter { it.categoryId == categoryId }
-        if (q.isNotEmpty()) list = list.filter { it.title.contains(q, true) }
-        list = if(available) list.filter { it.available } else list
-        list = list.filter { it.price >= priceFrom }
-        list = list.filter { it.price <= priceTo }
-        list = if(order == "asc") list.sortedBy { it.price } else list.sortedByDescending { it.price }
-        //list = list.drop(offset).take(count)
-        Thread.sleep(3000)
-        return list
+        val res = aptekaAPI.searchMedicine(
+            q,
+            categoryId,
+            priceFrom,
+            priceTo,
+            available,
+            count,
+            offset,
+            orderBy,
+            order
+        ).await()
+        return res.products
     }
 
-    fun getCartCount():LiveData<Int> = medicineDao.getCount()
+    fun getCartCount(): LiveData<Int> = medicineDao.getCount()
 
-    fun getCartItems():LiveData<List<MedicineCart>> = medicineDao.getAll()
+    fun getCartItems(): LiveData<List<MedicineCart>> = medicineDao.getAll()
 
-    fun getCartItemsList():List<MedicineCart> = medicineDao.getAllList()
+    fun getCartItemsList(): List<MedicineCart> = medicineDao.getAllList()
 
     suspend fun addCartItem(medicineCart: MedicineCart) = medicineDao.add(medicineCart)
 

@@ -36,10 +36,10 @@ class MedicineModel(
 
 
     init {
+        filter.value = getFilter()
         if (categoryId != 0) {
             getMedicinesByCategoriesID(categoryId, filter.value)
         }
-        filter.value = getFilter()
     }
 
     fun getFilter(): Filter = sharedPrefsManager.getFilterSearchingMedicines()
@@ -71,6 +71,7 @@ class MedicineModel(
     fun getCurrentQuery() = medicineDataSource.getQuery()
 
     fun applyFilter(){
+        saveFilter(filter.value!!)
         medicineDataSource.updateQuery(categoryId, filter.value)
         closeFilterDialog.value = !closeFilterDialog.value!!
     }

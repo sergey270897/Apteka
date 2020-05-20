@@ -1,5 +1,6 @@
 package ru.app.apteka.ui.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -13,8 +14,8 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.androidx.viewmodel.compat.ScopeCompat.viewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.app.apteka.R
 import ru.app.apteka.ui.fragments.CartFragment
@@ -27,23 +28,33 @@ import ru.app.apteka.viewmodels.CartModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val cartModel:CartModel by viewModel()
+    private val cartModel: CartModel by viewModel()
+
+    private val CODE_REQUEST_AUTH = 123
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // val intent = Intent(this, AuthActivity::class.java)
-        // startActivity(intent)
 
         setContentView(R.layout.activity_main)
         initToolbar()
         initBottomMenu()
         initObservers()
+        initBackStackListener()
+    }
+
+    private fun initBackStackListener() {
+        supportFragmentManager.addOnBackStackChangedListener {
+            setSelectedMenuItem()
+        }
     }
 
     private fun initObservers() {
         cartModel.count.observe(this, Observer {
             showBadgeCount(it)
+        })
+
+        cartModel.startActivityAuth.observe(this, Observer {
+            if(it)startAuthActivity()
         })
     }
 
@@ -59,19 +70,21 @@ class MainActivity : AppCompatActivity() {
         bottom_menu.selectedItemId = R.id.catalog
     }
 
-    private fun showBadgeCount(count:Int){
+    private fun showBadgeCount(count: Int) {
         val badge = bottom_menu.getOrCreateBadge(R.id.cart)
         badge.number = count
         badge.backgroundColor = getColor(R.color.colorRed)
         badge.isVisible = badge.number != 0
     }
 
-    private fun openProfile(){
-        startFragment(
-            R.id.container,
-            ProfileFragment(),
-            ProfileFragment::class.simpleName!!
-        )
+    private fun openProfile() {
+        if (cartModel.checkLogin()) {
+            startFragment(
+                R.id.container,
+                ProfileFragment(),
+                ProfileFragment::class.simpleName!!
+            )
+        }
     }
 
     private fun openCart() {
@@ -158,13 +171,42 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        //setSelectedMenuItem()
+    }
+
+    private fun setSelectedMenuItem(){
         val index = supportFragmentManager.backStackEntryCount - 1
-        val tag:String = if(index < 0) CatalogFragment::class.simpleName.toString() else supportFragmentManager.getBackStackEntryAt(index).name.toString()
-        when{
-            tag.contains(CatalogFragment::class.simpleName.toString()) ->  bottom_menu.menu.findItem(R.id.catalog).isChecked = true
-            tag.contains(MedicineListFragment::class.simpleName.toString()) ->  bottom_menu.menu.findItem(R.id.catalog).isChecked = true
-            tag.contains(CartFragment::class.simpleName.toString()) ->  bottom_menu.menu.findItem(R.id.cart).isChecked = true
-            tag.contains(ProfileFragment::class.simpleName.toString()) -> bottom_menu.menu.findItem(R.id.profile).isChecked = true
+        val tag: String =
+            if (index < 0) CatalogFragment::class.simpleName.toString() else supportFragmentManager.getBackStackEntryAt(
+                index
+            ).name.toString()
+        when {
+            tag.contains(CatalogFragment::class.simpleName.toString()) ->
+                bottom_menu.menu.findItem(R.id.catalog).isChecked = true
+            tag.contains(MedicineListFragment::class.simpleName.toString()) ->
+                bottom_menu.menu.findItem(R.id.catalog).isChecked = true
+            tag.contains(CartFragment::class.simpleName.toString()) ->
+                bottom_menu.menu.findItem(R.id.cart).isChecked = true
+            tag.contains(ProfileFragment::class.simpleName.toString()) ->
+                bottom_menu.menu.findItem(R.id.profile).isChecked = true
+        }
+    }
+
+    private fun startAuthActivity() {
+        cartModel.startActivityAuth.value = false
+        val intent = Intent(this, AuthActivity::class.java)
+        startActivityForResult(intent, CODE_REQUEST_AUTH)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CODE_REQUEST_AUTH && resultCode == Activity.RESULT_OK) {
+            Log.d("M__MainActivity", "auth_ok")
+        } else {
+            Snackbar
+                .make(bottom_menu, "Для продолжения необходимо авторизоваться", Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(resources.getColor(R.color.colorPrimary))
+                .show()
         }
     }
 }

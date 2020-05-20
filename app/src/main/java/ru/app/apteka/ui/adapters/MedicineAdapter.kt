@@ -1,6 +1,7 @@
 package ru.app.apteka.ui.adapters
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView

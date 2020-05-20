@@ -17,7 +17,7 @@ class CatalogModel(private val repository: CatalogRepository) : BaseViewModel() 
 
     private var supervisorJob = SupervisorJob()
 
-    private lateinit var allCategories: LiveData<List<Category>>
+    private lateinit var allCategories: List<Category>
 
     private var _categories = MutableLiveData<List<Category>>()
     var categories: LiveData<List<Category>>
@@ -47,11 +47,11 @@ class CatalogModel(private val repository: CatalogRepository) : BaseViewModel() 
     }
 
     fun getGroups() {
-        _categories.value = allCategories.value?.filter { it.parentId == null }
+        _categories.value = allCategories.filter { it.parentId == null }
     }
 
     fun getCategories(id: Int) {
-        _categories.value = allCategories.value?.filter { it.parentId == id }
+        _categories.value = allCategories.filter { it.parentId == id }
     }
 
     override fun onCleared() {

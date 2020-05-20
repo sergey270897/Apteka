@@ -59,14 +59,16 @@
 
 
             <Button
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
                 android:background="@drawable/bg_round_color"
                 app:backgroundTint="@color/colorAccent"
-                android:text="Оформить заказ"
+                android:text="@string/order"
                 android:textColor="@android:color/white"
-                android:fontFamily="sans-serif" />
+                android:fontFamily="sans-serif"
+                android:onClick="@{v->cart.onClickOrder()}"/>
         </LinearLayout>
 
         <ProgressBar

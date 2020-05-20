@@ -20,7 +20,7 @@ class MedicineDataSource(
     private val repository: MedicineRepository,
     private val query: String,
     private val categoryId: Int,
-    private val filter:Filter?
+    private val filter: Filter?
 ) : PositionalDataSource<Medicine>() {
 
     private var supervisorJob = SupervisorJob()
@@ -29,22 +29,10 @@ class MedicineDataSource(
 
     private var lastCount = 0
 
-    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Medicine>) {
-        if (lastCount == 20) {
-            retryQuery = { loadRange(params, callback) }
-            executeQuery(
-                offset = params.startPosition,
-                count = params.loadSize
-            ) {
-                callback.onResult(it)
-            }
-        }
-    }
-
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Medicine>) {
         retryQuery = { loadInitial(params, callback) }
         executeQuery(
-            offset = params.requestedStartPosition,
+            offset = 0,
             count = params.requestedLoadSize
         ) {
             lastCount = it.size
@@ -52,6 +40,18 @@ class MedicineDataSource(
         }
     }
 
+    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Medicine>) {
+        if (lastCount==20) {
+            retryQuery = { loadRange(params, callback) }
+            executeQuery(
+                offset = params.startPosition,
+                count = params.loadSize
+            ) {
+                lastCount = it.size
+                callback.onResult(it)
+            }
+        }
+    }
 
 
     override fun invalidate() {
@@ -59,24 +59,24 @@ class MedicineDataSource(
         supervisorJob.cancelChildren()
     }
 
+
     private fun executeQuery(offset: Int, count: Int, callback: (List<Medicine>) -> Unit) {
         networkState.postValue(NetworkState.RUNNING)
         scope.launch(getErrorHandler() + supervisorJob) {
             delay(500)
-
             val medicines = repository.getMedicine(
                 offset = offset,
                 count = count,
                 q = query,
                 categoryId = categoryId,
-                order = filter?.let { if (it.sortIndex == 0) "asc" else "desc" } ?: "asc",
+                order = if (filter?.sortIndex == 0) "asc" else "desc",
                 priceTo = filter?.priceTo ?: 20000,
                 priceFrom = filter?.priceFrom ?: 0,
                 available = filter?.available ?: false
             )
 
             val cart = repository.getCartItemsList()
-            medicines.forEach {listItem->
+            medicines.forEach { listItem ->
                 cart.forEach { cartItem ->
                     if (listItem.id == cartItem.id) listItem.count = cartItem.count
                 }
@@ -88,7 +88,6 @@ class MedicineDataSource(
         }
     }
 
-
     private fun getErrorHandler() = CoroutineExceptionHandler { _, e ->
         Log.d("M__MedicineDataSource", "An error happened: $e")
         networkState.postValue(NetworkState.FAILED)
@@ -96,7 +95,9 @@ class MedicineDataSource(
 
     fun getNetworkState(): LiveData<NetworkState> = networkState
 
-    fun refresh() = this.invalidate()
+    fun refresh() {
+        this.invalidate()
+    }
 
     fun retryFailedQuery() {
         val lastQuery = retryQuery

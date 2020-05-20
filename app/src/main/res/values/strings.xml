@@ -28,4 +28,12 @@
     <string name="code">Код</string>
     <string name="codeTextHint">На указанный e-mail было отправлено сообщение с кодом подтверждения.</string>
     <string name="enter">войти</string>
+    <string name="timer">Получить повторно код можно через 00:%1$s</string>
+    <string name="retry">Получить код повторно</string>
+    <string name="order">Оформить заказ</string>
+    <string name="fieldError">Недопустимое значение</string>
+    <string name="errorEmail">Некорректный e-mail</string>
+    <string name="errorFormatCode">Неверный формат</string>
+    <string name="wrongCode">Неверный код</string>
+    <string name="errorSnackbar">Oops! Технические неполадки</string>
 </resources>

@@ -1,17 +1,15 @@
 package ru.app.apteka.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
+import retrofit2.await
 import ru.app.apteka.models.Category
-import ru.app.apteka.utils.DataGenerator
-import ru.app.apteka.utils.json2Category
-import java.lang.Exception
+import ru.app.apteka.models.toCategory
+import ru.app.apteka.network.AptekaAPI
 
-class CatalogRepository {
+class CatalogRepository(private val aptekaAPI: AptekaAPI) {
 
-    suspend fun getCategories(): LiveData<List<Category>> {
-        val response = DataGenerator.getCategoriesApi()
-        Thread.sleep(2000)
-        return MutableLiveData(json2Category(response))
+    suspend fun getCategories(): List<Category> {
+        val res = aptekaAPI.getCategories().await()
+        return res.toCategory()
     }
 }

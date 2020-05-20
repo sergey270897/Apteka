@@ -3,19 +3,26 @@ package ru.app.apteka.repositories.manager
 import android.content.Context
 import android.content.SharedPreferences
 import ru.app.apteka.models.Filter
+import ru.app.apteka.models.Profile
 import ru.app.apteka.utils.extensions.setValue
 
 class SharedPrefsManager(private val context: Context) {
 
     companion object{
-        private const val SP_NAME = "AptekaSP"
+        private const val SP_TITLE = "AptekaSP"
         private const val SP_SORT_INDEX = "SortIndex"
         private const val SP_PRICE_FROM = "PriceFrom"
         private const val SP_PRICE_TO = "PriceTo"
         private const val SP_AVAILABLE = "Available"
+
+        private const val SP_NAME = "Name"
+        private const val SP_TOKEN = "Token"
+        private const val SP_REFRESH = "Refresh"
+        private const val SP_EMAIL = "Email"
+        private const val SP_CITY = "City"
     }
 
-    private fun get(): SharedPreferences = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
+    private fun get(): SharedPreferences = context.getSharedPreferences(SP_TITLE, Context.MODE_PRIVATE)
 
     fun getFilterSearchingMedicines(): Filter {
         val sortIndex = get().getInt(SP_SORT_INDEX, 0)
@@ -30,5 +37,24 @@ class SharedPrefsManager(private val context: Context) {
         get().setValue(SP_PRICE_FROM, filter.priceFrom)
         get().setValue(SP_PRICE_TO, filter.priceTo)
         get().setValue(SP_AVAILABLE, filter.available)
+    }
+
+    fun saveProfile(profile: Profile){
+        get().setValue(SP_NAME, profile.name)
+        get().setValue(SP_TOKEN, profile.token)
+        get().setValue(SP_REFRESH, profile.refresh)
+        get().setValue(SP_EMAIL, profile.email)
+        get().setValue(SP_CITY, profile.city)
+    }
+
+    fun getProfile():Profile{
+        val token = get().getString(SP_TOKEN, null)
+        val refresh = get().getString(SP_REFRESH, null)
+        val name = get().getString(SP_NAME, null)
+        val email = get().getString(SP_EMAIL, null)
+        val city = get().getString(SP_CITY, null)
+        val profile = Profile(token, refresh, name, email)
+        profile.city = city
+        return profile
     }
 }

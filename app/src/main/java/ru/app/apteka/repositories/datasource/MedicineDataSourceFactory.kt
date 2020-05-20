@@ -20,7 +20,7 @@ class MedicineDataSourceFactory(
     val source = MutableLiveData<MedicineDataSource>()
     override fun create(): DataSource<Int, Medicine> {
         val src = MedicineDataSource(scope, repository, query, categoryId, filter)
-        val cart = repository.getCartItems()
+        //val cart = repository.getCartItems()
         source.postValue(src)
         return src
     }

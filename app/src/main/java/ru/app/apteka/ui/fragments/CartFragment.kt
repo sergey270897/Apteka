@@ -1,6 +1,7 @@
 package ru.app.apteka.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -12,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_cart.*
 import org.koin.androidx.viewmodel.compat.ScopeCompat.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.app.apteka.R
 import ru.app.apteka.databinding.FragmentCartBinding
@@ -23,7 +25,7 @@ import ru.app.apteka.viewmodels.CartModel
 
 class CartFragment : Fragment(), CartAdapter.OnClickListener{
 
-    private val cartModel:CartModel by viewModel()
+    private val cartModel:CartModel by sharedViewModel()
     private var cartAdapter = CartAdapter(this)
 
     override fun onCreateView(

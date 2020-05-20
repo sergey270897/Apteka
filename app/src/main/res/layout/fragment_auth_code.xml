@@ -9,68 +9,71 @@
         android:id="@+id/auth_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow_back_black_24dp"
-        android:background="@drawable/bg_image_btn_dark"/>
+        android:background="@drawable/bg_image_btn_dark"
+        android:src="@drawable/ic_arrow_back_black_24dp" />
 
     <TextView
-        android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="22sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
         android:text="@string/accept"
-        android:layout_gravity="center"/>
+        android:textColor="@android:color/black"
+        android:textSize="22sp" />
 
     <TextView
-        android:layout_marginTop="32dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/codeTextHint"/>
+        android:layout_marginTop="32dp"
+        android:text="@string/codeTextHint" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/auth_code"
-            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tv_auth_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/code"
                 android:background="@android:color/white"
-                android:singleLine="true"
+                android:hint="@string/code"
                 android:inputType="numberDecimal"
-                android:maxLength="6"/>
+                android:maxLength="6"
+                android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ProgressBar
-            android:layout_alignEnd="@id/auth_code"
+            android:id="@+id/auth_progress"
             android:layout_width="28dp"
             android:layout_height="28dp"
+            android:layout_alignEnd="@id/auth_code"
             android:layout_alignBottom="@id/auth_code"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
     </RelativeLayout>
 
 
     <TextView
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:layout_marginTop="16dp"
+        android:id="@+id/auth_tv_timerOrRetry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
-        android:text="Получить код повторно"
-        android:clickable="false"
-        android:background="@drawable/bg_round_color"/>
-
-<!--     android:text="Получить повторно код можно через 00:59"-->
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_round_color"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:text="@string/timer" />
 
     <Button
-        android:layout_marginTop="32dp"
+        android:id="@+id/auth_send"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="@string/enter"
-        android:background="@drawable/bg_round_color"/>
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_round_color"
+        android:text="@string/enter" />
 </LinearLayout>

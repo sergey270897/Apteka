@@ -35,7 +35,7 @@
             android:ellipsize="end"
             android:lines="2"
             android:maxLines="2"
-            android:text="@{medicine.title}" />
+            android:text="@{medicine.name}" />
 
         <TextView
             android:layout_width="wrap_content"
