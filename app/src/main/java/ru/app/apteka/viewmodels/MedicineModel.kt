@@ -16,7 +16,7 @@ import ru.app.apteka.repositories.manager.SharedPrefsManager
 import ru.app.apteka.ui.base.BaseViewModel
 
 class MedicineModel(
-    val categoryId: Int,
+    private val categoryId: Int,
     private val repository: MedicineRepository,
     private val sharedPrefsManager: SharedPrefsManager
 ) : BaseViewModel() {

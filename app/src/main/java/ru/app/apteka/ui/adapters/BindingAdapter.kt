@@ -8,5 +8,6 @@ import ru.app.apteka.BuildConfig
 
 @BindingAdapter("app:url", "app:errorImage")
 fun loadImage(image: ImageView, url: String, errorImage: Drawable) {
-    Picasso.get().load(BuildConfig.URL + url).error(errorImage).into(image)
+    val _url = if(url.contains("http")) url else BuildConfig.URL + url
+    Picasso.get().load(_url).error(errorImage).into(image)
 }

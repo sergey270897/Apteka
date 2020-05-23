@@ -18,8 +18,10 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.app.apteka.R
+import ru.app.apteka.models.Medicine
 import ru.app.apteka.ui.fragments.CartFragment
 import ru.app.apteka.ui.fragments.CatalogFragment
+import ru.app.apteka.ui.fragments.InfoFragment
 import ru.app.apteka.ui.fragments.MedicineListFragment
 import ru.app.apteka.ui.fragments.OrderFragment
 import ru.app.apteka.ui.fragments.ProfileFragment
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private val CODE_REQUEST_AUTH = 123
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
@@ -123,6 +126,14 @@ class MainActivity : AppCompatActivity() {
             R.id.container,
             MedicineListFragment.getInstance(0, ""),
             MedicineListFragment::class.simpleName!!
+        )
+    }
+
+    fun openMedicineInfo(item:Medicine) {
+        startFragment(
+            R.id.container,
+            InfoFragment.getInstance(item),
+            InfoFragment::class.simpleName!!
         )
     }
 

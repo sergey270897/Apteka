@@ -28,6 +28,7 @@ class MedicineAdapter(private val callback: OnClickListener) :
         fun onClickBuy(item:Medicine)
         fun onClickRefresh()
         fun listUpdated(size: Int, networkState: NetworkState?)
+        fun onClickItem(item:Medicine)
     }
 
     enum class ViewType {
@@ -66,6 +67,10 @@ class MedicineAdapter(private val callback: OnClickListener) :
                 binding.btnIncMedicineCard.setOnClickListener {
                     item.count.value = item.count.value?.plus(1)
                     callback.onClickBuy(item)
+                }
+
+                binding.medicineCard.setOnClickListener {
+                    callback.onClickItem(item)
                 }
             }
         }

@@ -30,6 +30,7 @@ import ru.app.apteka.ui.activities.MainActivity
 import ru.app.apteka.ui.adapters.MedicineAdapter
 import ru.app.apteka.ui.custom.CustomGridLayoutManager
 import ru.app.apteka.utils.extensions.onTextChanged
+import ru.app.apteka.utils.extensions.startFragment
 import ru.app.apteka.viewmodels.MedicineModel
 
 class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
@@ -148,8 +149,6 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
             }
         }
 
-
-
         with(rv_list_medicine) {
             adapter = medicineAdapter
             this.layoutManager = layoutManager
@@ -221,7 +220,6 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
     }
 
     override fun onClickBuy(item: Medicine) {
-        Log.d("M__MedicineListFragment","$item")
         if (item.count.value!! > 0)
             medicineModel.addCartItem(item = item.toMedicineCart())
         else
@@ -235,5 +233,9 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
     override fun listUpdated(size: Int, networkState: NetworkState?) {
         updateUILoading(size, networkState)
         updateUIData(size, networkState)
+    }
+
+    override fun onClickItem(item: Medicine) {
+        (activity as MainActivity).openMedicineInfo(item)
     }
 }

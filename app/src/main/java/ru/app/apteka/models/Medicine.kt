@@ -4,13 +4,14 @@ import androidx.lifecycle.MutableLiveData
 
 data class Medicine(
     val id: Long,
-    val name: String,
-    val categoryId: Int,
+    val title: String,
+    val categoryId: Long,
     val categoryName: String,
     val image: String = "",
     val price: Float,
     val rating: Float,
-    val available: Boolean
+    val available: Boolean,
+    val description:String
 ) {
     var count: MutableLiveData<Int> = MutableLiveData(0)
         get() {
@@ -19,7 +20,7 @@ data class Medicine(
         }
 
     fun priceString(): String = String.format("%.2f ₽", price)
-    fun toMedicineCart(): MedicineCart = MedicineCart(id, name, image, price, count)
+    fun toMedicineCart(): MedicineCart = MedicineCart(id, title, image, price, count)
 }
 
 data class MedicineResponse(val count: Int, val products: List<Medicine>)

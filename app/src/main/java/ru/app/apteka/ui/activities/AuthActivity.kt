@@ -20,6 +20,7 @@ class AuthActivity : AppCompatActivity() {
     private val modelAuth:AuthModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
         startAuthFragment()

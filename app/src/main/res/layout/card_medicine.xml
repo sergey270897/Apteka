@@ -12,6 +12,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/medicine_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -35,7 +36,7 @@
             android:ellipsize="end"
             android:lines="2"
             android:maxLines="2"
-            android:text="@{medicine.name}" />
+            android:text="@{medicine.title}" />
 
         <TextView
             android:layout_width="wrap_content"

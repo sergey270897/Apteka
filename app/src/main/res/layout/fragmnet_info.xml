@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="medicine"
+            type="ru.app.apteka.models.Medicine" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_round_color"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ru.app.apteka.ui.custom.AspectRatioImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:src="@drawable/placeholder"
+                app:errorImage="@{@drawable/placeholder}"
+                app:url="@{medicine.image}" />
+
+            <RatingBar
+                android:id="@+id/rating_medicine_info"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:numStars="5"
+                android:stepSize="0.1"
+                android:theme="@style/Rating" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@{medicine.title}"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@{medicine.priceString()}"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/not_available"
+                android:textColor="@color/colorRed"
+                android:textSize="18sp"
+                android:visibility="@{medicine.available? View.GONE : View.VISIBLE}" />
+
+            <Button
+                android:id="@+id/btn_buy_medicine_info"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_round_color"
+                android:drawableTint="@android:color/white"
+                android:fontFamily="sans-serif-light"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:stateListAnimator="@null"
+                android:text="@string/buy"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:visibility="@{(medicine.count == 0 &amp;&amp; medicine.available) ? View.VISIBLE : View.GONE}"
+                app:backgroundTint="@color/colorAccent"
+                app:icon="@drawable/ic_add_shopping_cart_black_18dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:visibility="@{medicine.count > 0? View.VISIBLE : View.GONE}">
+
+                <Button
+                    android:id="@+id/btn_dec_medicine_info"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_round_color"
+                    android:padding="0dp"
+                    android:text="-"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:gravity="center"
+                    android:maxLength="3"
+                    android:text="@{String.valueOf(medicine.count)}"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/btn_inc_medicine_info"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_round_color"
+                    android:padding="0dp"
+                    android:text="+"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="@color/colorAccent" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@{medicine.description}"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+    </ScrollView>
+</layout>

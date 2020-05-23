@@ -5,4 +5,9 @@
         <attr name="aiv_borderWidth" format="dimension"/>
         <attr name="aiv_initials" format="string"/>
     </declare-styleable>
+
+
+    <declare-styleable name="AspectRatioImageView">
+        <attr name="ariv_aspectRatio" format="float"/>
+    </declare-styleable>
 </resources>
