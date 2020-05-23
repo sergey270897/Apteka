@@ -1,7 +1,6 @@
 package ru.app.apteka.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -129,5 +128,9 @@ class CartFragment : Fragment(), CartAdapter.OnClickListener {
     override fun onClickCount(item: MedicineCart) {
         if (item.count.value == 0) cartModel.deleteCartItem(item)
         else cartModel.updateCartItem(item)
+    }
+
+    override fun onClickItem(item: MedicineCart) {
+        (activity as MainActivity).openMedicineInfo(item.toMedicine())
     }
 }

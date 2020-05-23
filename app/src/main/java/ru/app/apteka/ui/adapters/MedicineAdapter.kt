@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -111,7 +112,6 @@ class MedicineAdapter(private val callback: OnClickListener) :
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.card_medicine, parent, false)
                 val binding = CardMedicineBinding.bind(view)
-
                 val viewHolder = MedicineItemHolder(binding)
                 binding.lifecycleOwner = viewHolder
                 viewHolder

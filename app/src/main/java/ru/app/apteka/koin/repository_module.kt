@@ -4,6 +4,7 @@ import org.koin.dsl.module
 import ru.app.apteka.repositories.AuthRepository
 import ru.app.apteka.repositories.CatalogRepository
 import ru.app.apteka.repositories.MedicineRepository
+import ru.app.apteka.repositories.OrderRepository
 import ru.app.apteka.repositories.ProfileRepository
 import ru.app.apteka.repositories.TokenRepository
 
@@ -13,4 +14,5 @@ val repositoryModule = module {
     factory { AuthRepository(get()) }
     factory { ProfileRepository(get(), get()) }
     factory { TokenRepository(get()) }
+    factory { OrderRepository(get()) }
 }

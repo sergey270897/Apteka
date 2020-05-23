@@ -16,6 +16,7 @@ class CartAdapter(private val callback: OnClickListener) :
     RecyclerView.Adapter<CartAdapter.CartHolder>() {
     interface OnClickListener {
         fun onClickCount(item: MedicineCart)
+        fun onClickItem(item: MedicineCart)
     }
 
     inner class CartHolder(private val binding: CardCartBinding) :
@@ -32,6 +33,10 @@ class CartAdapter(private val callback: OnClickListener) :
                 binding.btnIncCartCard.setOnClickListener {
                     item.count.value = item.count.value?.plus(1)
                     callback.onClickCount(item)
+                }
+
+                binding.cardCart.setOnClickListener{
+                    callback.onClickItem(item)
                 }
             }
         }

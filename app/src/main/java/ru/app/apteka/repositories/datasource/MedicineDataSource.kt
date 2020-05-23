@@ -75,13 +75,6 @@ class MedicineDataSource(
                 available = filter?.available ?: false
             )
 
-            val cart = repository.getCartItemsList()
-            medicines.forEach { listItem ->
-                cart.forEach { cartItem ->
-                    if (listItem.id == cartItem.id) listItem.count = cartItem.count
-                }
-            }
-
             retryQuery = null
             networkState.postValue(NetworkState.SUCCESS)
             callback(medicines)

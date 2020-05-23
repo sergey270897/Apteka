@@ -1,7 +1,6 @@
 package ru.app.apteka.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_catalog.*
@@ -26,12 +24,12 @@ class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
 
     private val catalogModel: CatalogModel by viewModel()
 
-    enum class TypeCatalog {
-        GROUP,
-        CATEGORY
-    }
-
     companion object {
+        enum class TypeCatalog {
+            GROUP,
+            CATEGORY
+        }
+
         fun getInstance(type: TypeCatalog, title: String, id: Int): CatalogFragment {
             val catalogFragment = CatalogFragment()
             val bundle = Bundle()
@@ -100,7 +98,7 @@ class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
 
         catalogModel.networkState.observe(viewLifecycleOwner, Observer {
             updateUILoading(it)
-            if(it != NetworkState.RUNNING){
+            if (it != NetworkState.RUNNING) {
                 updateUIData(it)
             }
         })
@@ -109,18 +107,10 @@ class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
     override fun onClickItem(category: Category) {
         when (type) {
             TypeCatalog.GROUP -> {
-                (activity as MainActivity).startFragment(
-                    R.id.container,
-                    getInstance(TypeCatalog.CATEGORY, category.title, category.id),
-                    CatalogFragment::class.simpleName + category.title + category.id
-                )
+                (activity as MainActivity).openCatalogCategory(category)
             }
             TypeCatalog.CATEGORY -> {
-                (activity as MainActivity).startFragment(
-                    R.id.container,
-                    MedicineListFragment.getInstance(category.id, category.title),
-                    MedicineListFragment::class.simpleName + category.title + category.id
-                )
+                (activity as MainActivity).openMedicineList(category)
             }
         }
     }
@@ -151,7 +141,7 @@ class CatalogFragment : Fragment(), CatalogAdapter.OnClickListener {
                     tv_state_catalog.visibility = View.VISIBLE
                     btn_refresh_catalog.visibility = View.VISIBLE
                 } else {
-                   rv_list_catalog.visibility = View.VISIBLE
+                    rv_list_catalog.visibility = View.VISIBLE
                 }
             }
             NetworkState.FAILED -> {

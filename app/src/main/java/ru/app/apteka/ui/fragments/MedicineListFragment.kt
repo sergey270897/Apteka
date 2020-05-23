@@ -1,7 +1,6 @@
 package ru.app.apteka.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
@@ -13,7 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
@@ -24,13 +22,11 @@ import org.koin.core.parameter.parametersOf
 import ru.app.apteka.R
 import ru.app.apteka.databinding.DialogFilterBinding
 import ru.app.apteka.models.Medicine
-import ru.app.apteka.models.MedicineCart
 import ru.app.apteka.network.NetworkState
 import ru.app.apteka.ui.activities.MainActivity
 import ru.app.apteka.ui.adapters.MedicineAdapter
 import ru.app.apteka.ui.custom.CustomGridLayoutManager
 import ru.app.apteka.utils.extensions.onTextChanged
-import ru.app.apteka.utils.extensions.startFragment
 import ru.app.apteka.viewmodels.MedicineModel
 
 class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
@@ -237,5 +233,13 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
 
     override fun onClickItem(item: Medicine) {
         (activity as MainActivity).openMedicineInfo(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val list = medicineAdapter.currentList
+        if(list != null){
+            medicineModel.refreshAll()
+        }
     }
 }

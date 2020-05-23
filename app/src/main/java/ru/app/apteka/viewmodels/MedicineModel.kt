@@ -1,6 +1,5 @@
 package ru.app.apteka.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -42,9 +41,9 @@ class MedicineModel(
         }
     }
 
-    fun getFilter(): Filter = sharedPrefsManager.getFilterSearchingMedicines()
+    private fun getFilter(): Filter = sharedPrefsManager.getFilterSearchingMedicines()
 
-    fun saveFilter(filter: Filter) {
+    private fun saveFilter(filter: Filter) {
         sharedPrefsManager.saveFilterSearchingMedicines(filter)
     }
 
@@ -95,4 +94,5 @@ class MedicineModel(
             repository.addCartItem(item)
         }
     }
+
 }

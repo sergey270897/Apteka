@@ -14,17 +14,6 @@ class ProfileRepository(
     fun saveProfile(profile: Profile) = sharedPrefsManager.saveProfile(profile)
 
     suspend fun getPharmacy(): List<Pharmacy> {
-        return getPharmacyData()
-        //return aptekaAPI.getPharmacy().await().pharmacy
-    }
-
-    fun getPharmacyData():List<Pharmacy>{
-        Thread.sleep(3000)
-        val list = listOf<Pharmacy>(
-            Pharmacy(1, "First", "Tyumen"),
-            Pharmacy(2, "Second", "Perekopska 15a"),
-            Pharmacy(3, "Third apteka name long long very long hohohoh", "Nema City Tyumen, Perekopska 15a street")
-        )
-        return list
+        return aptekaAPI.getPharmacy().await().pharmacy
     }
 }

@@ -13,6 +13,7 @@ import ru.app.apteka.models.AuthResponse
 import ru.app.apteka.models.CategoryResponse
 import ru.app.apteka.models.EmailResponse
 import ru.app.apteka.models.MedicineResponse
+import ru.app.apteka.models.OrderResponse
 import ru.app.apteka.models.PharmacyResponse
 
 interface AptekaAPI {
@@ -46,11 +47,13 @@ interface AptekaAPI {
     @GET("/api/pharmacy")
     fun getPharmacy(): Call<PharmacyResponse>
 
-    //@Multipart
     @POST("/api/order/add")
     fun addOrder(@Body json: RequestBody): Call<AddOrderResponse>
 
     @Multipart
     @POST("/api/refresh")
     fun refresh(@Part("refreshToken") refreshToken: RequestBody): Call<AuthResponse>
+
+    @GET("/api/order")
+    fun getOrders():Call<OrderResponse>
 }

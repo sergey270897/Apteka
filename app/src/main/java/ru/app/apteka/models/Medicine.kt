@@ -20,7 +20,7 @@ data class Medicine(
         }
 
     fun priceString(): String = String.format("%.2f ₽", price)
-    fun toMedicineCart(): MedicineCart = MedicineCart(id, title, image, price, count)
+    fun toMedicineCart(): MedicineCart = MedicineCart(id, title, image, price, count, categoryId,categoryName,rating,available, description)
 }
 
 data class MedicineResponse(val count: Int, val products: List<Medicine>)

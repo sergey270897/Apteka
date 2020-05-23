@@ -9,7 +9,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import androidx.room.Update
 import ru.app.apteka.utils.Converter
@@ -17,18 +16,37 @@ import ru.app.apteka.utils.Converter
 @Entity(tableName = "cart")
 @TypeConverters(Converter::class)
 data class MedicineCart(
-    @PrimaryKey val id:Long,
-    val title:String,
-    val image:String,
-    val price:Float,
-    var count:MutableLiveData<Int>
-)
-{
-    fun priceString():String = String.format("%.2f ₽", price)
+    @PrimaryKey val id: Long,
+    val title: String,
+    val image: String,
+    val price: Float,
+    var count: MutableLiveData<Int>,
+    val categoryId: Long,
+    val categoryName: String,
+    val rating: Float,
+    val available: Boolean,
+    val description: String
+) {
+    fun priceString(): String = String.format("%.2f ₽", price)
+    fun toMedicine(): Medicine {
+        val res = Medicine(
+            id,
+            title,
+            categoryId,
+            categoryName,
+            image,
+            price,
+            rating,
+            available,
+            description
+        )
+        res.count = count
+        return res
+    }
 }
 
 @Dao
-interface MedicineDao{
+interface MedicineDao {
     @Query("select * from cart")
     fun getAll(): LiveData<List<MedicineCart>>
 

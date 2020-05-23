@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.app.apteka.R
+import ru.app.apteka.models.Category
 import ru.app.apteka.models.Medicine
 import ru.app.apteka.ui.fragments.CartFragment
 import ru.app.apteka.ui.fragments.CatalogFragment
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         cartModel.startActivityAuth.observe(this, Observer {
-            if(it)startAuthActivity()
+            if (it) startAuthActivity()
         })
     }
 
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.catalog -> openCatalog()
                 R.id.cart -> openCart()
                 R.id.profile -> openProfile()
-                R.id.order->openOrder()
+                R.id.order -> openOrder()
             }
             true
         }
@@ -82,12 +83,14 @@ class MainActivity : AppCompatActivity() {
         badge.isVisible = badge.number != 0
     }
 
-    private fun openOrder(){
-        startFragment(
-            R.id.container,
-            OrderFragment(),
-            OrderFragment::class.simpleName!!
-        )
+    private fun openOrder() {
+        if (cartModel.checkLogin()) {
+            startFragment(
+                R.id.container,
+                OrderFragment(),
+                OrderFragment::class.simpleName!!
+            )
+        }
     }
 
     private fun openProfile() {
@@ -112,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         startFragment(
             R.id.container,
             CatalogFragment.getInstance(
-                CatalogFragment.TypeCatalog.GROUP,
+                CatalogFragment.Companion.TypeCatalog.GROUP,
                 getString(R.string.app_name),
                 0
             ),
@@ -129,11 +132,31 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    fun openMedicineInfo(item:Medicine) {
+    fun openMedicineInfo(item: Medicine) {
         startFragment(
             R.id.container,
             InfoFragment.getInstance(item),
             InfoFragment::class.simpleName!!
+        )
+    }
+
+    fun openCatalogCategory(category: Category){
+        startFragment(
+            R.id.container,
+            CatalogFragment.getInstance(
+                CatalogFragment.Companion.TypeCatalog.CATEGORY,
+                category.title,
+                category.id
+            ),
+            CatalogFragment::class.simpleName + category.title + category.id
+        )
+    }
+
+    fun openMedicineList(category: Category){
+        startFragment(
+            R.id.container,
+            MedicineListFragment.getInstance(category.id, category.title),
+            MedicineListFragment::class.simpleName + category.title + category.id
         )
     }
 
@@ -195,7 +218,7 @@ class MainActivity : AppCompatActivity() {
         //setSelectedMenuItem()
     }
 
-    private fun setSelectedMenuItem(){
+    private fun setSelectedMenuItem() {
         val index = supportFragmentManager.backStackEntryCount - 1
         val tag: String =
             if (index < 0) CatalogFragment::class.simpleName.toString() else supportFragmentManager.getBackStackEntryAt(
@@ -227,7 +250,11 @@ class MainActivity : AppCompatActivity() {
             Log.d("M__MainActivity", "auth_ok")
         } else {
             Snackbar
-                .make(bottom_menu, "Для продолжения необходимо авторизоваться", Snackbar.LENGTH_SHORT)
+                .make(
+                    bottom_menu,
+                    "Для продолжения необходимо авторизоваться",
+                    Snackbar.LENGTH_SHORT
+                )
                 .setBackgroundTint(resources.getColor(R.color.colorPrimary))
                 .show()
         }

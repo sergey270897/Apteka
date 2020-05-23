@@ -38,4 +38,6 @@
     <string name="errorSnackbar">Oops! Технические неполадки</string>
     <string name="total">Итого:</string>
     <string name="warningSnackBarCity">Необходимо указать аптеку в настройках профиля</string>
+    <string name="catalog">Каталог</string>
+    <string name="orders">Заказы</string>
 </resources>

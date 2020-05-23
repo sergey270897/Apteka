@@ -1,6 +1,5 @@
 package ru.app.apteka.repositories
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import okhttp3.MediaType
 import okhttp3.RequestBody
@@ -13,7 +12,6 @@ import ru.app.apteka.models.MedicineCart
 import ru.app.apteka.models.MedicineDao
 import ru.app.apteka.network.AptekaAPI
 import ru.app.apteka.repositories.manager.SharedPrefsManager
-import ru.app.apteka.viewmodels.CartModel
 
 class MedicineRepository(private val aptekaAPI: AptekaAPI, private val medicineDao: MedicineDao, private val sharedPrefsManager: SharedPrefsManager) {
 
@@ -39,14 +37,25 @@ class MedicineRepository(private val aptekaAPI: AptekaAPI, private val medicineD
             orderBy,
             order
         ).await()
-        return res.products
+
+        return mergeCart(res.products)
+    }
+
+    private fun mergeCart(list: List<Medicine>):List<Medicine>{
+        val cart = getCartItemsList()
+        list.forEach { listItem ->
+            cart.forEach { cartItem ->
+                if (listItem.id == cartItem.id) listItem.count = cartItem.count
+            }
+        }
+        return list
     }
 
     fun getCartCount(): LiveData<Int> = medicineDao.getCount()
 
     fun getCartItems(): LiveData<List<MedicineCart>> = medicineDao.getAll()
 
-    fun getCartItemsList(): List<MedicineCart> = medicineDao.getAllList()
+    private fun getCartItemsList(): List<MedicineCart> = medicineDao.getAllList()
 
     fun addCartItem(medicineCart: MedicineCart) = medicineDao.add(medicineCart)
 

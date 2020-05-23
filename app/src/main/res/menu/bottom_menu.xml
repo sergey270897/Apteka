@@ -3,20 +3,20 @@
     <item
         android:id="@+id/catalog"
         android:icon="@drawable/ic_import_contacts_black_24dp"
-        android:title="Каталог"/>
+        android:title="@string/catalog"/>
 
     <item
         android:id="@+id/cart"
         android:icon="@drawable/ic_shopping_cart_black_24dp"
-        android:title="Корзина" />
+        android:title="@string/cart" />
 
     <item
         android:id="@+id/order"
         android:icon="@drawable/ic_receipt_black_24dp"
-        android:title="Заказы" />
+        android:title="@string/orders" />
 
     <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_person_black_24dp"
-        android:title="Профиль" />
+        android:title="@string/profile" />
 </menu>

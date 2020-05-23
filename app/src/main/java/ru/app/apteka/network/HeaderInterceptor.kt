@@ -56,16 +56,13 @@ class HeaderInterceptor(private val repository: TokenRepository) : Interceptor {
 
     private fun refreshToken(): Int{
         val profile = repository.getProfile()
-        Log.d("M__HeaderInterceptor", "start refresh")
         val refreshCall = repository.refresh(profile.refresh!!)
         val refreshResponse = refreshCall.execute()
         if (refreshResponse.code() == 200) {
             profile.token = refreshResponse.body()?.accessToken
             profile.refresh = refreshResponse.body()?.refreshToken
             repository.saveProfile(profile)
-            Log.d("M__HeaderInterceptor", "success refresh")
         } else {
-            Log.d("M__HeaderInterceptor", "clear data ${refreshResponse.code()}")
             repository.saveProfile(Profile(null,null,null,null))
         }
         return  refreshResponse.code()

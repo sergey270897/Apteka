@@ -6,6 +6,7 @@ import ru.app.apteka.viewmodels.AuthModel
 import ru.app.apteka.viewmodels.CartModel
 import ru.app.apteka.viewmodels.CatalogModel
 import ru.app.apteka.viewmodels.MedicineModel
+import ru.app.apteka.viewmodels.OrderModel
 import ru.app.apteka.viewmodels.ProfileModel
 
 val viewModelModule = module {
@@ -14,4 +15,5 @@ val viewModelModule = module {
     viewModel { CartModel(get()) }
     viewModel { AuthModel(get(),get()) }
     viewModel { ProfileModel(get()) }
+    viewModel { OrderModel(get()) }
 }
