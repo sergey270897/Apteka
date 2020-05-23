@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
@@ -23,6 +24,7 @@ import org.koin.core.parameter.parametersOf
 import ru.app.apteka.R
 import ru.app.apteka.databinding.DialogFilterBinding
 import ru.app.apteka.models.Medicine
+import ru.app.apteka.models.MedicineCart
 import ru.app.apteka.network.NetworkState
 import ru.app.apteka.ui.activities.MainActivity
 import ru.app.apteka.ui.adapters.MedicineAdapter
@@ -145,6 +147,8 @@ class MedicineListFragment : Fragment(), MedicineAdapter.OnClickListener {
                 }
             }
         }
+
+
 
         with(rv_list_medicine) {
             adapter = medicineAdapter

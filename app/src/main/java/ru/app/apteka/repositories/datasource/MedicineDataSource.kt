@@ -91,6 +91,7 @@ class MedicineDataSource(
     private fun getErrorHandler() = CoroutineExceptionHandler { _, e ->
         Log.d("M__MedicineDataSource", "An error happened: $e")
         networkState.postValue(NetworkState.FAILED)
+        supervisorJob.cancelChildren()
     }
 
     fun getNetworkState(): LiveData<NetworkState> = networkState

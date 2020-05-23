@@ -45,13 +45,14 @@
                 android:hint="@string/code"
                 android:inputType="numberDecimal"
                 android:maxLength="6"
-                android:singleLine="true" />
+                android:singleLine="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <ProgressBar
             android:id="@+id/auth_progress"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleSmall"
             android:layout_alignEnd="@id/auth_code"
             android:layout_alignBottom="@id/auth_code"
             android:layout_marginBottom="16dp"

@@ -46,4 +46,7 @@ interface MedicineDao{
 
     @Delete
     fun delete(medicine: MedicineCart)
+
+    @Query("delete from cart")
+    fun deleteAll()
 }

@@ -15,6 +15,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import ru.app.apteka.R
 import ru.app.apteka.network.NetworkState
 import ru.app.apteka.ui.activities.AuthActivity
+import ru.app.apteka.utils.extensions.onTextChanged
 import ru.app.apteka.viewmodels.AuthModel
 
 class CodeFragment : Fragment() {
@@ -82,16 +83,8 @@ class CodeFragment : Fragment() {
             }
         }
 
-        tv_auth_code.addTextChangedListener(object : TextWatcher{
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(s?.length == 0) auth_code.error = null
-            }
-        })
+        tv_auth_code.onTextChanged {
+            if(it?.length == 0) auth_code.error = null
+        }
     }
 }

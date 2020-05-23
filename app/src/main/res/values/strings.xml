@@ -36,4 +36,6 @@
     <string name="errorFormatCode">Неверный формат</string>
     <string name="wrongCode">Неверный код</string>
     <string name="errorSnackbar">Oops! Технические неполадки</string>
+    <string name="total">Итого:</string>
+    <string name="warningSnackBarCity">Необходимо указать аптеку в настройках профиля</string>
 </resources>

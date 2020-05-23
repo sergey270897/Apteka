@@ -9,8 +9,13 @@ import ru.app.apteka.network.AptekaAPI
 import ru.app.apteka.network.HeaderInterceptor
 
 val networkModule = module {
-    factory { OkHttpClient().newBuilder().addInterceptor(HeaderInterceptor()).build() }
-    single{
+    factory {
+        OkHttpClient().newBuilder()
+            .addInterceptor(HeaderInterceptor(get()))
+            .build()
+    }
+
+    single {
         Retrofit.Builder()
             .client(get())
             .baseUrl(BuildConfig.URL)

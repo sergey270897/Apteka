@@ -11,7 +11,7 @@ import ru.app.apteka.viewmodels.ProfileModel
 val viewModelModule = module {
     viewModel { CatalogModel(get()) }
     viewModel { (categoryId:Int)-> MedicineModel(categoryId, get(), get()) }
-    viewModel { CartModel(get(), get()) }
+    viewModel { CartModel(get()) }
     viewModel { AuthModel(get(),get()) }
     viewModel { ProfileModel(get()) }
 }

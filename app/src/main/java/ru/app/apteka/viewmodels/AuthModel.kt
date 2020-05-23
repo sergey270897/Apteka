@@ -84,7 +84,7 @@ class AuthModel(
         }
     }
 
-    fun saveProfile(){
+    private fun saveProfile(){
         sharedPrefsManager.saveProfile(profile)
     }
 

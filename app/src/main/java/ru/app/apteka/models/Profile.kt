@@ -1,8 +1,7 @@
 package ru.app.apteka.models
 
 data class Profile(var token:String?, var refresh:String?, var name:String?, var email:String?){
-    var city:String? = null
-    fun getInitials():String = "S"//name?.first()?.toUpperCase().toString()
+    var pharmacyId:Int = 0
 }
 
 data class EmailResponse(val email:String, val error:Int)

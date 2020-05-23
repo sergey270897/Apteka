@@ -10,8 +10,7 @@ data class Medicine(
     val image: String = "",
     val price: Float,
     val rating: Float,
-    val balance: Int,
-    var available: Boolean
+    val available: Boolean
 ) {
     var count: MutableLiveData<Int> = MutableLiveData(0)
         get() {

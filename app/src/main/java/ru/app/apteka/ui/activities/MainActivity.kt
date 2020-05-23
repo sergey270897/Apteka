@@ -21,6 +21,7 @@ import ru.app.apteka.R
 import ru.app.apteka.ui.fragments.CartFragment
 import ru.app.apteka.ui.fragments.CatalogFragment
 import ru.app.apteka.ui.fragments.MedicineListFragment
+import ru.app.apteka.ui.fragments.OrderFragment
 import ru.app.apteka.ui.fragments.ProfileFragment
 import ru.app.apteka.utils.dpToPx
 import ru.app.apteka.utils.extensions.startFragment
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.catalog -> openCatalog()
                 R.id.cart -> openCart()
                 R.id.profile -> openProfile()
+                R.id.order->openOrder()
             }
             true
         }
@@ -75,6 +77,14 @@ class MainActivity : AppCompatActivity() {
         badge.number = count
         badge.backgroundColor = getColor(R.color.colorRed)
         badge.isVisible = badge.number != 0
+    }
+
+    private fun openOrder(){
+        startFragment(
+            R.id.container,
+            OrderFragment(),
+            OrderFragment::class.simpleName!!
+        )
     }
 
     private fun openProfile() {
@@ -189,6 +199,8 @@ class MainActivity : AppCompatActivity() {
                 bottom_menu.menu.findItem(R.id.cart).isChecked = true
             tag.contains(ProfileFragment::class.simpleName.toString()) ->
                 bottom_menu.menu.findItem(R.id.profile).isChecked = true
+            tag.contains(OrderFragment::class.simpleName.toString()) ->
+                bottom_menu.menu.findItem(R.id.order).isChecked = true
         }
     }
 

@@ -2,13 +2,20 @@ package ru.app.apteka.repositories
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import org.json.JSONArray
+import org.json.JSONObject
 import retrofit2.await
+import ru.app.apteka.models.AddOrderResponse
 import ru.app.apteka.models.Medicine
 import ru.app.apteka.models.MedicineCart
 import ru.app.apteka.models.MedicineDao
 import ru.app.apteka.network.AptekaAPI
+import ru.app.apteka.repositories.manager.SharedPrefsManager
+import ru.app.apteka.viewmodels.CartModel
 
-class MedicineRepository(private val aptekaAPI: AptekaAPI, private val medicineDao: MedicineDao) {
+class MedicineRepository(private val aptekaAPI: AptekaAPI, private val medicineDao: MedicineDao, private val sharedPrefsManager: SharedPrefsManager) {
 
     suspend fun getMedicine(
         q: String = "",
@@ -41,9 +48,28 @@ class MedicineRepository(private val aptekaAPI: AptekaAPI, private val medicineD
 
     fun getCartItemsList(): List<MedicineCart> = medicineDao.getAllList()
 
-    suspend fun addCartItem(medicineCart: MedicineCart) = medicineDao.add(medicineCart)
+    fun addCartItem(medicineCart: MedicineCart) = medicineDao.add(medicineCart)
 
-    suspend fun updateCartItem(medicineCart: MedicineCart) = medicineDao.update(medicineCart)
+    fun updateCartItem(medicineCart: MedicineCart) = medicineDao.update(medicineCart)
 
-    suspend fun deleteCartItem(medicineCart: MedicineCart) = medicineDao.delete(medicineCart)
+    fun deleteCartItem(medicineCart: MedicineCart) = medicineDao.delete(medicineCart)
+
+    fun deleteAll() = medicineDao.deleteAll()
+
+    fun getProfile() = sharedPrefsManager.getProfile()
+
+    suspend fun addOrder(products:List<MedicineCart>):AddOrderResponse{
+        val jobject = JSONObject()
+        val jarray = JSONArray()
+        for(p in products){
+            val obj = JSONObject()
+            obj.put("itemId", p.id)
+            obj.put("count", p.count.value)
+            jarray.put(obj)
+        }
+        jobject.put("order", jarray)
+        jobject.put("pharmId", getProfile().pharmacyId)
+        val json = RequestBody.create(MediaType.parse("application/json"), jobject.toString())
+        return  aptekaAPI.addOrder(json).await()
+    }
 }

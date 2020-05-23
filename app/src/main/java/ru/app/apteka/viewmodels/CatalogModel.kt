@@ -44,6 +44,7 @@ class CatalogModel(private val repository: CatalogRepository) : BaseViewModel() 
     private fun getJobErrorHandler() = CoroutineExceptionHandler { _, e ->
         Log.d("M__CatalogModel", "Error: $e")
         _networkState.postValue(NetworkState.FAILED)
+        supervisorJob.cancelChildren()
     }
 
     fun getGroups() {

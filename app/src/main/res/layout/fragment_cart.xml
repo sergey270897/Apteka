@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -15,24 +15,24 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_list_cart"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/card_cart"
-            android:layout_above="@id/block_cart" />
+            android:layout_above="@id/block_cart"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            tools:listitem="@layout/card_cart" />
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/block_cart"
-            android:layout_alignParentBottom="true"
-            android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
             android:background="@android:color/white"
+            android:backgroundTint="@android:color/white"
             android:elevation="8dp"
-            android:backgroundTint="@android:color/white">
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,35 +40,43 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Итого:"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/total"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif-medium" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
                     android:text='@{String.valueOf(cart.total) + " ₽"}'
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif-medium" />
+                    android:textSize="16sp" />
             </LinearLayout>
 
+            <ProgressBar
+                android:id="@+id/progress_cart_order"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
 
             <Button
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="16dp"
+                android:id="@+id/btn_order"
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:background="@drawable/bg_round_color"
-                app:backgroundTint="@color/colorAccent"
+                android:fontFamily="sans-serif"
+                android:onClick="@{v->cart.onClickOrder()}"
                 android:text="@string/order"
                 android:textColor="@android:color/white"
-                android:fontFamily="sans-serif"
-                android:onClick="@{v->cart.onClickOrder()}"/>
+                app:backgroundTint="@color/colorAccent" />
         </LinearLayout>
 
         <ProgressBar
@@ -78,14 +86,14 @@
             android:layout_centerInParent="true" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_state_cart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_margin="32dp"
             android:gravity="center"
+            android:text="@string/empty_cart"
             android:textSize="18sp"
-            android:text="@string/empty_cart" />
+            android:visibility="gone" />
     </RelativeLayout>
 </layout>

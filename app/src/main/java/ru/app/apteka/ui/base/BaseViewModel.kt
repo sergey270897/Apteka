@@ -5,7 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 
-abstract class BaseViewModel:ViewModel() {
+abstract class BaseViewModel : ViewModel() {
     protected val uiScope = CoroutineScope(Dispatchers.Main)
     protected val ioScope = CoroutineScope(Dispatchers.Default)
 
