@@ -3,13 +3,13 @@
 
     <data>
 
-        <import type="ru.app.apteka.network.NetworkState" />
+        <import type="ru.app.pharmacy.network.NetworkState" />
 
         <import type="android.view.View" />
 
         <variable
             name="state"
-            type="ru.app.apteka.network.NetworkState" />
+            type="ru.app.pharmacy.network.NetworkState" />
     </data>
 
     <RelativeLayout
@@ -39,10 +39,10 @@
             android:layout_below="@id/tv_state_medicine_card"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
             android:clickable="true"
             android:focusable="true"
             android:text="@string/refresh"
-            android:background="@android:color/transparent"
             android:textColor="@color/colorAccent"
             android:visibility="@{state == NetworkState.FAILED? View.VISIBLE: View.GONE}" />
     </RelativeLayout>

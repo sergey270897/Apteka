@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="AvatarImageView">
-        <attr name="aiv_borderColor" format="color"/>
-        <attr name="aiv_borderWidth" format="dimension"/>
-        <attr name="aiv_initials" format="string"/>
+        <attr name="aiv_borderColor" format="color" />
+        <attr name="aiv_borderWidth" format="dimension" />
+        <attr name="aiv_initials" format="string" />
     </declare-styleable>
 
 
     <declare-styleable name="AspectRatioImageView">
-        <attr name="ariv_aspectRatio" format="float"/>
+        <attr name="ariv_aspectRatio" format="float" />
     </declare-styleable>
 </resources>

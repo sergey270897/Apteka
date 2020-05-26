@@ -76,12 +76,9 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation 'com.squareup.picasso:picasso:2.71828'
-    //implementation 'com.squareup.okhttp3:logging-interceptor:4.6.0'
-    //implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-
 
     // lifecycle
-    def lifecylce_version = "2.3.0-alpha02"
+    def lifecylce_version = "2.3.0-alpha03"
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecylce_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecylce_version"

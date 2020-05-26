@@ -6,7 +6,7 @@
 
         <variable
             name="product"
-            type="ru.app.apteka.models.Product" />
+            type="ru.app.pharmacy.models.Product" />
     </data>
 
     <RelativeLayout
@@ -20,6 +20,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@string/imgDesc"
             android:src="@drawable/placeholder"
             app:errorImage="@{@drawable/placeholder}"
             app:url="@{product.image}" />

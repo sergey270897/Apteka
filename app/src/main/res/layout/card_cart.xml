@@ -8,7 +8,7 @@
 
         <variable
             name="medicine"
-            type="ru.app.apteka.models.MedicineCart" />
+            type="ru.app.pharmacy.models.MedicineCart" />
     </data>
 
     <RelativeLayout
@@ -25,6 +25,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
+            android:contentDescription="@string/imgDesc"
             android:src="@drawable/placeholder"
             app:errorImage="@{@drawable/placeholder}"
             app:url="@{medicine.image}" />
@@ -66,7 +67,7 @@
                 android:layout_height="36dp"
                 android:background="@drawable/bg_round_color"
                 android:padding="0dp"
-                android:text="-"
+                android:text="@string/minus"
                 android:textColor="@android:color/white"
                 app:backgroundTint="@color/colorAccent" />
 
@@ -86,7 +87,7 @@
                 android:layout_height="36dp"
                 android:background="@drawable/bg_round_color"
                 android:padding="0dp"
-                android:text="+"
+                android:text="@string/plus"
                 android:textColor="@android:color/white"
                 app:backgroundTint="@color/colorAccent" />
         </LinearLayout>

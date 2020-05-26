@@ -35,9 +35,14 @@
     <string name="errorEmail">Некорректный e-mail</string>
     <string name="errorFormatCode">Неверный формат</string>
     <string name="wrongCode">Неверный код</string>
-    <string name="errorSnackbar">Oops! Технические неполадки</string>
+    <string name="errorSnackBar">Oops! Технические неполадки</string>
     <string name="total">Итого:</string>
     <string name="warningSnackBarCity">Необходимо указать аптеку в настройках профиля</string>
     <string name="catalog">Каталог</string>
     <string name="orders">Заказы</string>
+    <string name="needAuth">Для продолжения необходимо авторизоваться</string>
+    <string name="imgDesc">image</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="Pharmacy">Аптека</string>
 </resources>

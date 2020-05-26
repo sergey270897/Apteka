@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="model"
-            type="ru.app.apteka.viewmodels.MedicineModel" />
+            type="ru.app.pharmacy.viewmodels.MedicineModel" />
     </data>
 
     <LinearLayout
@@ -15,16 +16,15 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/filter"
@@ -32,14 +32,15 @@
                 android:textSize="20sp" />
 
             <ImageButton
-                android:layout_gravity="center"
-                android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_close_black_24dp"
-                android:tint="@color/colorPrimaryDark"
+                android:layout_gravity="center"
                 android:background="@drawable/bg_image_btn_dark"
-                android:onClick="@{v->model.closeFilter()}"/>
+                android:contentDescription="@string/imgDesc"
+                android:onClick="@{v->model.closeFilter()}"
+                android:padding="8dp"
+                android:src="@drawable/ic_close_black_24dp"
+                android:tint="@color/colorPrimaryDark" />
         </LinearLayout>
 
         <TextView
@@ -59,18 +60,18 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/asc"
-                android:textColor="@color/colorPrimary"
                 android:checked="@{model.filter.sortIndex == 0}"
-                android:onClick="@{v->model.setSortIndex(0)}"/>
+                android:onClick="@{v->model.setSortIndex(0)}"
+                android:text="@string/asc"
+                android:textColor="@color/colorPrimary" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/desc"
-                android:textColor="@color/colorPrimary"
                 android:checked="@{model.filter.sortIndex == 1}"
-                android:onClick="@{v->model.setSortIndex(1)}"/>
+                android:onClick="@{v->model.setSortIndex(1)}"
+                android:text="@string/desc"
+                android:textColor="@color/colorPrimary" />
         </RadioGroup>
 
         <View
@@ -89,6 +90,7 @@
             android:textSize="16sp" />
 
         <LinearLayout
+            android:baselineAligned="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -103,13 +105,13 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@android:color/white"
                     android:clickable="false"
                     android:enabled="false"
                     android:hint="@string/from"
                     android:inputType="numberDecimal"
-                    android:textColor="@color/colorPrimary"
                     android:text="@{model.filter.priceFromString()}"
-                    android:background="@android:color/white"/>
+                    android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -121,13 +123,13 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@android:color/white"
                     android:clickable="false"
                     android:enabled="false"
                     android:hint="@string/to"
                     android:inputType="numberDecimal"
-                    android:textColor="@color/colorPrimary"
                     android:text="@{model.filter.priceToString()}"
-                    android:background="@android:color/white"/>
+                    android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -138,14 +140,14 @@
             android:layout_marginTop="8dp"
             app:bar_color="@color/colorGrayLight"
             app:bar_highlight_color="@color/colorAccent"
+            app:data_type="_integer"
             app:left_thumb_color="@color/colorAccent"
             app:left_thumb_color_pressed="@color/colorAccent"
             app:max_value="20000"
             app:min_value="0"
             app:right_thumb_color="@color/colorAccent"
             app:right_thumb_color_pressed="@color/colorAccent"
-            app:steps="100"
-            app:data_type="_integer" />
+            app:steps="100" />
 
         <View
             android:layout_width="match_parent"
@@ -157,9 +159,9 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="@={model.filter.available}"
             android:text="@string/available"
-            android:textColor="@color/colorPrimary"
-            android:checked="@={model.filter.available}"/>
+            android:textColor="@color/colorPrimary" />
 
         <Button
             android:layout_width="match_parent"
@@ -167,12 +169,12 @@
             android:layout_marginTop="32dp"
             android:layout_marginBottom="0dp"
             android:background="@drawable/bg_round_color"
-            app:backgroundTint="@color/colorAccent"
             android:fontFamily="sans-serif"
+            android:onClick="@{v->model.applyFilter()}"
             android:stateListAnimator="@null"
             android:text="@string/apply_filter"
             android:textColor="@android:color/white"
-            android:onClick="@{v->model.applyFilter()}"/>
+            app:backgroundTint="@color/colorAccent" />
 
     </LinearLayout>
 </layout>
