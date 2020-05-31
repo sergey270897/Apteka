@@ -1,6 +1,8 @@
 package ru.app.pharmacy.ui.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -9,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.fragment_order.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.app.pharmacy.R
@@ -17,7 +20,7 @@ import ru.app.pharmacy.ui.activities.MainActivity
 import ru.app.pharmacy.ui.adapters.OrderAdapter
 import ru.app.pharmacy.viewmodels.OrderModel
 
-class OrderFragment : Fragment() {
+class OrderFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private val orderModel: OrderModel by viewModel()
     private val orderAdapter = OrderAdapter()
@@ -69,6 +72,8 @@ class OrderFragment : Fragment() {
         btn_refresh_order.setOnClickListener {
             orderModel.loadOrders()
         }
+
+        swipe.setOnRefreshListener(this)
     }
 
     private fun uploadUILoading(networkState: NetworkState?) {
@@ -101,5 +106,14 @@ class OrderFragment : Fragment() {
                 btn_refresh_order.visibility = View.VISIBLE
             }
         }
+    }
+
+    override fun onRefresh() {
+        Handler().postDelayed(
+            {
+                orderModel.refresh()
+                swipe.isRefreshing = false
+            }, 1500
+        )
     }
 }

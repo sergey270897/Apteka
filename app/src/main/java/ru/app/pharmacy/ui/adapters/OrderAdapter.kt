@@ -18,10 +18,10 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.ViewHolder>() {
             with(itemView.order_status) {
                 text = item.getStatusString()
                 val color = when (item.status) {
-                    10 -> resources.getColor(R.color.colorYellow)
+                    10 -> resources.getColor(R.color.colorAccent)
                     20 -> resources.getColor(R.color.colorGreen)
                     30 -> resources.getColor(R.color.colorRed)
-                    else -> resources.getColor(R.color.colorAccent)
+                    else -> resources.getColor(R.color.colorYellow)
                 }
                 setTextColor(color)
             }

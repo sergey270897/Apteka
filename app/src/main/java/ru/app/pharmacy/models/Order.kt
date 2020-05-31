@@ -1,7 +1,8 @@
 package ru.app.pharmacy.models
 
+import android.util.Log
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.*
 
 data class AddOrderResponse(val error: Int, val msg: String)
 
@@ -16,16 +17,16 @@ data class Order(
 ) {
     fun getDateString(): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS", Locale("ru"))
-        val d = dateFormat.parse(date)
+        val time = dateFormat.parse(date).time + TimeZone.getDefault().rawOffset
         val newFormat = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale("ru"))
-        return newFormat.format(d)
+        return newFormat.format(time)
     }
 
     fun getStatusString(): String = when (status) {
         10 -> "Оформлен"
         20 -> "Выдан"
         30 -> "Отменен"
-        else -> "Статус не указан"
+        else -> "Ожидает обработки"
     }
 }
 

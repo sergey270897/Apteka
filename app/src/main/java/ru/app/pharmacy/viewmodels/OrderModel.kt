@@ -45,4 +45,9 @@ class OrderModel(private val repository: OrderRepository) : BaseViewModel() {
             }
         }
     }
+
+    fun refresh(){
+        _orders.value = listOf()
+        loadOrders()
+    }
 }

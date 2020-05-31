@@ -83,4 +83,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecylce_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecylce_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecylce_version"
+
+    // swipe_refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
 }
