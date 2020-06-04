@@ -31,6 +31,10 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.ViewHolder>() {
                 layoutManager = LinearLayoutManager(context)
             }
             productAdapter.updateData(item.products)
+            val total = item.products.sumByDouble { it.count * it.price.toDouble() }
+            itemView.order_total.text = itemView.context.getString(
+                R.string.orderTotal, String.format("%.2f ₽", total)
+            )
         }
     }
 

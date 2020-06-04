@@ -45,4 +45,7 @@
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="Pharmacy">Аптека</string>
+    <string name="bd">Дата рождения</string>
+    <string name="balance">В наличии</string>
+    <string name="orderTotal">Итого:  %1$s</string>
 </resources>

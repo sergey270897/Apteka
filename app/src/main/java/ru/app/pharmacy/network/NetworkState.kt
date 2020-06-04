@@ -4,5 +4,7 @@ enum class NetworkState {
     RUNNING,
     SUCCESS,
     FAILED,
-    WRONG_DATA
+    WRONG_DATA;
+
+    var code:Int? = null
 }

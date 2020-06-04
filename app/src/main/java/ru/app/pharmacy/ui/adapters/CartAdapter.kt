@@ -31,8 +31,10 @@ class CartAdapter(private val callback: OnClickListener) :
                 }
 
                 binding.btnIncCartCard.setOnClickListener {
-                    item.count.value = item.count.value?.plus(1)
-                    callback.onClickCount(item)
+                    if(item.count.value!! < item.balance){
+                        item.count.value = item.count.value?.plus(1)
+                        callback.onClickCount(item)
+                    }
                 }
 
                 binding.cardCart.setOnClickListener {

@@ -1,5 +1,9 @@
 package ru.app.pharmacy.utils.extensions
 
+import android.app.Activity
+import android.inputmethodservice.InputMethodService
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ru.app.pharmacy.R
@@ -23,4 +27,10 @@ fun AppCompatActivity.startFragment(
         if (addToBackStack) addToBackStack(tag)
         commit()
     }
+}
+
+fun AppCompatActivity.hideKeyboard() {
+    val view = currentFocus ?: View(this)
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }

@@ -1,5 +1,6 @@
 package ru.app.pharmacy.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -12,6 +13,7 @@ import ru.app.pharmacy.models.Profile
 import ru.app.pharmacy.network.NetworkState
 import ru.app.pharmacy.repositories.ProfileRepository
 import ru.app.pharmacy.ui.base.BaseViewModel
+import java.util.*
 
 class ProfileModel(private val repository: ProfileRepository) : BaseViewModel() {
 
@@ -25,6 +27,11 @@ class ProfileModel(private val repository: ProfileRepository) : BaseViewModel() 
     init {
         getPharmacy()
         networkState = _networkState
+
+        if (profile.bd == null) {
+            profile.setDate(Date())
+            saveProfile()
+        }
     }
 
     override fun onCleared() {
@@ -49,9 +56,12 @@ class ProfileModel(private val repository: ProfileRepository) : BaseViewModel() 
 
     fun saveProfile() {
         repository.saveProfile(profile)
+        ioScope.launch(getJobErrorHandler() + supervisorJob) {
+            repository.changeMe(profile.name!!, profile.bd!!)
+        }
     }
 
     fun exitProfile() {
-        repository.saveProfile(Profile(null, null, null, null))
+        repository.saveProfile(Profile(null, null, null, null, null))
     }
 }

@@ -1,6 +1,7 @@
 package ru.app.pharmacy.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -34,6 +35,7 @@ class InfoFragment : Fragment() {
             bundle.putFloat("rating", item.rating)
             bundle.putBoolean("available", item.available)
             bundle.putInt("count", item.count.value!!)
+            bundle.putInt("balance", item.balance)
             fragment.arguments = bundle
             return fragment
         }
@@ -60,6 +62,7 @@ class InfoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             val id = it.getLong("id")
             val categoryId = it.getLong("categoryId")
@@ -71,6 +74,7 @@ class InfoFragment : Fragment() {
             val rating = it.getFloat("rating")
             val available = it.getBoolean("available")
             val count = it.getInt("count")
+            val balance = it.getInt("balance")
             medicine = Medicine(
                 id,
                 title,
@@ -80,7 +84,8 @@ class InfoFragment : Fragment() {
                 price,
                 rating,
                 available,
-                description
+                description,
+                balance
             )
             medicine.count = MutableLiveData(count)
         }
@@ -113,8 +118,10 @@ class InfoFragment : Fragment() {
             onClickBuy(medicine)
         }
         btn_inc_medicine_info.setOnClickListener {
-            medicine.count.value = medicine.count.value?.plus(1)
-            onClickBuy(medicine)
+            if(medicine.count.value!! < medicine.balance){
+                medicine.count.value = medicine.count.value?.plus(1)
+                onClickBuy(medicine)
+            }
         }
     }
 

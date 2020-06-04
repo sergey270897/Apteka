@@ -56,8 +56,10 @@ class MedicineAdapter(private val callback: OnClickListener) :
                     callback.onClickBuy(item)
                 }
                 binding.btnIncMedicineCard.setOnClickListener {
-                    item.count.value = item.count.value?.plus(1)
-                    callback.onClickBuy(item)
+                    if(item.count.value!! < item.balance){
+                        item.count.value = item.count.value?.plus(1)
+                        callback.onClickBuy(item)
+                    }
                 }
 
                 binding.medicineCard.setOnClickListener {

@@ -20,6 +20,7 @@ class SharedPrefsManager(private val context: Context) {
         private const val SP_REFRESH = "Refresh"
         private const val SP_EMAIL = "Email"
         private const val SP_PHARMACY_ID = "PharmacyID"
+        private const val SP_BD = "Bd"
     }
 
     private fun get(): SharedPreferences = context.getSharedPreferences(SP_TITLE, Context.MODE_PRIVATE)
@@ -45,6 +46,7 @@ class SharedPrefsManager(private val context: Context) {
         get().setValue(SP_REFRESH, profile.refresh)
         get().setValue(SP_EMAIL, profile.email)
         get().setValue(SP_PHARMACY_ID, profile.pharmacyId)
+        get().setValue(SP_BD, profile.bd)
     }
 
     fun getProfile():Profile{
@@ -53,7 +55,8 @@ class SharedPrefsManager(private val context: Context) {
         val name = get().getString(SP_NAME, null)
         val email = get().getString(SP_EMAIL, null)
         val id = get().getInt(SP_PHARMACY_ID, -1)
-        val profile = Profile(token, refresh, name, email)
+        val bd = get().getString(SP_BD, null)
+        val profile = Profile(token, refresh, name, email, bd)
         profile.pharmacyId = id
         return profile
     }

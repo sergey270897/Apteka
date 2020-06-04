@@ -80,10 +80,25 @@
 
     <Spinner
         android:id="@+id/spinner_city_profile"
+        style="@style/Widget.AppCompat.ListView.DropDown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="22dp"
         android:layout_marginTop="8dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/bd" />
 
+    <TextView
+        android:id="@+id/tv_bd_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"/>
 </LinearLayout>

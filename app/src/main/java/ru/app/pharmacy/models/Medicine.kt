@@ -11,7 +11,8 @@ data class Medicine(
     val price: Float,
     val rating: Float,
     val available: Boolean,
-    val description: String
+    val description: String,
+    var balance:Int
 ) {
     var count: MutableLiveData<Int> = MutableLiveData(0)
         get() {
@@ -30,7 +31,8 @@ data class Medicine(
         categoryName,
         rating,
         available,
-        description
+        description,
+        balance
     )
 }
 

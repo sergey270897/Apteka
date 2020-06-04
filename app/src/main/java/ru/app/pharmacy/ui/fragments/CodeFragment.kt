@@ -51,9 +51,8 @@ class CodeFragment : Fragment() {
 
         authModel.networkState.observe(viewLifecycleOwner, Observer {
             auth_progress.visibility = if (it == NetworkState.RUNNING) View.VISIBLE else View.GONE
-            if (it == NetworkState.WRONG_DATA)
+            if (it == NetworkState.WRONG_DATA && it.code == 0)
                 auth_code.error = getString(R.string.wrongCode)
-
         })
     }
 
@@ -80,7 +79,7 @@ class CodeFragment : Fragment() {
         }
 
         tv_auth_code.onTextChanged {
-            if (it?.length == 0) auth_code.error = null
+            auth_code.error = null
         }
     }
 }

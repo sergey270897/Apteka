@@ -47,6 +47,7 @@ class CartModel(
             val res = repository.addOrder(products.value!!)
             _msg.postValue(1 to res.msg)
             _networkState.postValue(NetworkState.SUCCESS)
+            deleteAll()
         }
     }
 
@@ -72,7 +73,7 @@ class CartModel(
         }
     }
 
-    fun deleteAll() {
+    private fun deleteAll() {
         ioScope.launch {
             repository.deleteAll()
         }

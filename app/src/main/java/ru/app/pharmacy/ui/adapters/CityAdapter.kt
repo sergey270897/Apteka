@@ -32,7 +32,7 @@ class CityAdapter(context: Context, private val resource: Int, tvResourceId: Int
         val viewResult: View =
             convertView ?: LayoutInflater.from(context).inflate(resource, parent, false)
         viewResult.findViewById<TextView>(R.id.list_item_tv).text =
-            if (pharmacy.address.isEmpty()) pharmacy.name else "${pharmacy.name}\n${pharmacy.address}"
+            if (pharmacy.address.isEmpty()) pharmacy.name else "${pharmacy.name}\n${pharmacy.address.trim()}"
 
         val progress = viewResult.findViewById<ProgressBar>(R.id.list_item_progress)
         if (showProgress) {

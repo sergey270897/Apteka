@@ -64,7 +64,10 @@ class MedicineRepository(
         val cart = getCartItemsList()
         list.forEach { listItem ->
             cart.forEach { cartItem ->
-                if (listItem.id == cartItem.id) listItem.count = cartItem.count
+                if (listItem.id == cartItem.id) {
+                    listItem.count = cartItem.count
+                    cartItem.balance = listItem.balance
+                }
             }
         }
         return list

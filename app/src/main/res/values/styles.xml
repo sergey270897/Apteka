@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>
     </style>
 
     <style name="Dialog" parent="Theme.AppCompat.Light.Dialog">
@@ -25,6 +27,11 @@
     <style name="Rating" parent="AppTheme">
         <item name="colorControlNormal">@color/colorGrayLight</item>
         <item name="colorControlActivated">@color/colorYellow</item>
+    </style>
+
+    <style name="SpinnerStyle" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:divider">@color/colorGray</item>
+        <item name="android:dividerHeight">0.5dp</item>
     </style>
 
 </resources>

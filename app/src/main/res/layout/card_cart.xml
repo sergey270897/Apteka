@@ -52,19 +52,20 @@
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="124dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_title_cart"
             android:layout_alignParentEnd="true"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:orientation="horizontal">
+            android:visibility="@{medicine.count > 0? View.VISIBLE : View.GONE}">
 
             <Button
                 android:id="@+id/btn_dec_cart_card"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
+                android:layout_toStartOf="@id/tv_count_cart_card"
                 android:background="@drawable/bg_round_color"
                 android:padding="0dp"
                 android:text="@string/minus"
@@ -72,8 +73,10 @@
                 app:backgroundTint="@color/colorAccent" />
 
             <TextView
+                android:id="@+id/tv_count_cart_card"
                 android:layout_width="40dp"
-                android:layout_height="wrap_content"
+                android:layout_height="36dp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="6dp"
                 android:gravity="center"
@@ -85,12 +88,21 @@
                 android:id="@+id/btn_inc_cart_card"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
+                android:layout_toEndOf="@id/tv_count_cart_card"
                 android:background="@drawable/bg_round_color"
                 android:padding="0dp"
                 android:text="@string/plus"
                 android:textColor="@android:color/white"
                 app:backgroundTint="@color/colorAccent" />
-        </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_count_cart_card"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:text='@{@string/balance + " " + medicine.balance}' />
+        </RelativeLayout>
 
     </RelativeLayout>
 </layout>

@@ -86,18 +86,18 @@
                 app:backgroundTint="@color/colorAccent"
                 app:icon="@drawable/ic_add_shopping_cart_black_18dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:orientation="horizontal"
                 android:visibility="@{medicine.count > 0? View.VISIBLE : View.GONE}">
 
                 <Button
                     android:id="@+id/btn_dec_medicine_info"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
+                    android:layout_toStartOf="@id/tv_count_medicine_info"
                     android:background="@drawable/bg_round_color"
                     android:padding="0dp"
                     android:text="@string/minus"
@@ -105,8 +105,10 @@
                     app:backgroundTint="@color/colorAccent" />
 
                 <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_count_medicine_info"
+                    android:layout_width="40dp"
+                    android:layout_height="36dp"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginStart="6dp"
                     android:layout_marginEnd="6dp"
                     android:gravity="center"
@@ -118,12 +120,21 @@
                     android:id="@+id/btn_inc_medicine_info"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
+                    android:layout_toEndOf="@id/tv_count_medicine_info"
                     android:background="@drawable/bg_round_color"
                     android:padding="0dp"
                     android:text="@string/plus"
                     android:textColor="@android:color/white"
                     app:backgroundTint="@color/colorAccent" />
-            </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_count_medicine_info"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:text='@{@string/balance + " " + medicine.balance}' />
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -132,5 +143,6 @@
                 android:text="@{medicine.description}"
                 android:textColor="@android:color/black" />
         </LinearLayout>
+
     </ScrollView>
 </layout>

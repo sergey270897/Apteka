@@ -11,6 +11,7 @@ import ru.app.pharmacy.R
 import ru.app.pharmacy.network.NetworkState
 import ru.app.pharmacy.ui.fragments.AuthFragment
 import ru.app.pharmacy.ui.fragments.CodeFragment
+import ru.app.pharmacy.utils.extensions.hideKeyboard
 import ru.app.pharmacy.utils.extensions.startFragment
 import ru.app.pharmacy.viewmodels.AuthModel
 
@@ -29,7 +30,8 @@ class AuthActivity : AppCompatActivity() {
 
     private fun initObserver() {
         modelAuth.networkState.observe(this, Observer {
-            if (it == NetworkState.FAILED) showError()
+            if (it == NetworkState.FAILED) showError(getString(R.string.errorSnackBar))
+            if (it == NetworkState.WRONG_DATA && it.code == 1) showError("Невозможно выполнить вход")
         })
 
         modelAuth.finishAuth.observe(this, Observer {
@@ -40,10 +42,12 @@ class AuthActivity : AppCompatActivity() {
         })
     }
 
-    private fun showError() =
-        Snackbar.make(auth_container, getString(R.string.errorSnackBar), Snackbar.LENGTH_SHORT)
+    private fun showError(msg:String) {
+        hideKeyboard()
+        Snackbar.make(auth_container, msg, Snackbar.LENGTH_SHORT)
             .setBackgroundTint(resources.getColor(R.color.colorRed))
             .show()
+    }
 
     private fun startAuthFragment() {
         startFragment(

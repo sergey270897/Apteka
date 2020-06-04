@@ -18,4 +18,5 @@ class AuthRepository(private val pharmacyAPI: PharmacyAPI) {
         val secretNumRequest = RequestBody.create(MediaType.parse("text/plain"), secretNum)
         return pharmacyAPI.auth(emailRequest, secretNumRequest).await()
     }
+
 }

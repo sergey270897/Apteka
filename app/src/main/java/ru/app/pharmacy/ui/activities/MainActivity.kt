@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -31,11 +32,12 @@ import ru.app.pharmacy.viewmodels.CartModel
 
 class MainActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         private const val CODE_REQUEST_AUTH = 123
     }
 
     private val cartModel: CartModel by viewModel()
+    private var bottomMenuLastIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -64,6 +66,12 @@ class MainActivity : AppCompatActivity() {
                 )
                 .setBackgroundTint(resources.getColor(R.color.colorPrimary))
                 .show()
+            bottom_menu.menu.findItem(bottomMenuLastIndex).isChecked = true
+        } else if (resultCode == Activity.RESULT_OK) {
+            when (bottom_menu.selectedItemId) {
+                R.id.profile -> openProfile()
+                R.id.order -> openOrder()
+            }
         }
     }
 
@@ -172,6 +180,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openCart() {
+        bottomMenuLastIndex = R.id.cart
         startFragment(
             R.id.container,
             CartFragment(),
@@ -180,6 +189,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openCatalog() {
+        bottomMenuLastIndex = R.id.catalog
         startFragment(
             R.id.container,
             CatalogFragment.getInstance(
@@ -230,7 +240,7 @@ class MainActivity : AppCompatActivity() {
         startFragment(
             R.id.container,
             InfoFragment.getInstance(item),
-            InfoFragment::class.simpleName!!
+            InfoFragment::class.simpleName!! + item.id
         )
     }
 

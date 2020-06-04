@@ -33,11 +33,11 @@ class AuthFragment : Fragment() {
 
     private fun initViews() {
         auth_name.editText?.onTextChanged {
-            if (it?.length == 0) auth_name.error = null
+            auth_name.error = null
         }
 
         auth_email.editText?.onTextChanged {
-            if (it?.length == 0) auth_email.error = null
+            auth_email.error = null
         }
 
         auth_continue.setOnClickListener {

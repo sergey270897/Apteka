@@ -98,10 +98,6 @@ class CartFragment : Fragment(), CartAdapter.OnClickListener {
                 btn_order.visibility = View.VISIBLE
                 progress_cart_order.visibility = View.GONE
             }
-
-            if (it == NetworkState.SUCCESS) {
-                cartModel.deleteAll()
-            }
         })
 
         cartModel.msg.observe(viewLifecycleOwner, Observer {

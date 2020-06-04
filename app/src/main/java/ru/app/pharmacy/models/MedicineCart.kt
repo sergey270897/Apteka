@@ -25,7 +25,8 @@ data class MedicineCart(
     val categoryName: String,
     val rating: Float,
     val available: Boolean,
-    val description: String
+    val description: String,
+    var balance:Int
 ) {
     fun priceString(): String = String.format("%.2f ₽", price)
     fun toMedicine(): Medicine {
@@ -38,7 +39,8 @@ data class MedicineCart(
             price,
             rating,
             available,
-            description
+            description,
+            balance
         )
         res.count = count
         return res

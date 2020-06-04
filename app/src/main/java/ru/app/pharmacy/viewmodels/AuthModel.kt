@@ -1,17 +1,21 @@
 package ru.app.pharmacy.viewmodels
 
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import ru.app.pharmacy.models.AuthResponse
 import ru.app.pharmacy.models.Profile
 import ru.app.pharmacy.network.NetworkState
 import ru.app.pharmacy.repositories.AuthRepository
 import ru.app.pharmacy.repositories.manager.SharedPrefsManager
 import ru.app.pharmacy.ui.base.BaseViewModel
+import java.util.*
 
 class AuthModel(
     private val repository: AuthRepository,
@@ -30,7 +34,7 @@ class AuthModel(
     private val _networkState = MutableLiveData<NetworkState>()
     val time = MutableLiveData(MINUTE / SECOND)
     val networkState: LiveData<NetworkState>
-    val profile = Profile(null, null, null, null)
+    val profile = Profile(null, null, null, null, null)
     val finishAuth = MutableLiveData(false)
 
     init {
@@ -67,10 +71,27 @@ class AuthModel(
     private fun getErrorHandler() = CoroutineExceptionHandler { _, e ->
         e.message?.let {
             if (it.contains("HTTP 401") || it.contains("HTTP 403") || it.contains("HTTP 406")) {
-                _networkState.postValue(NetworkState.WRONG_DATA)
+                val state = NetworkState.WRONG_DATA
+                state.code = 0
+                _networkState.postValue(state)
             } else _networkState.postValue(NetworkState.FAILED)
         } ?: _networkState.postValue(NetworkState.FAILED)
         supervisorJob.cancelChildren()
+    }
+
+    /*
+    * role
+    * 0 - admin
+    * 1 - pharm
+    * 2 - user
+    *
+    * only user can login
+    * */
+    private fun checkUserLevel(auth:AuthResponse):Boolean{
+        var token = auth.accessToken.split(".")[1]
+        token = String(Base64.getDecoder().decode(token))
+        val level = JSONObject(token).getInt("level")
+        return level == 2
     }
 
     fun startTimer() {
@@ -91,9 +112,15 @@ class AuthModel(
 
         ioScope.launch(getErrorHandler() + supervisorJob) {
             val token = repository.auth(email, secretNum)
-            _networkState.postValue(NetworkState.SUCCESS)
-            setProfile(token = token.accessToken, refresh = token.refreshToken)
-            saveProfile()
+            if(checkUserLevel(token)){
+                _networkState.postValue(NetworkState.SUCCESS)
+                setProfile(token = token.accessToken, refresh = token.refreshToken)
+                saveProfile()
+            }else{
+                val state = NetworkState.WRONG_DATA
+                state.code = 1
+                _networkState.postValue(state)
+            }
             finishAuth.postValue(true)
         }
     }
@@ -102,11 +129,13 @@ class AuthModel(
         name: String? = null,
         email: String? = null,
         token: String? = null,
-        refresh: String? = null
+        refresh: String? = null,
+        bd:String? = null
     ) {
         name?.let { profile.name = name }
         email?.let { profile.email = email }
         refresh?.let { profile.refresh = refresh }
         token?.let { profile.token = token }
+        bd?.let { profile.bd = bd }
     }
 }

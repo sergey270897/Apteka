@@ -8,13 +8,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Query
-import ru.app.pharmacy.models.AddOrderResponse
-import ru.app.pharmacy.models.AuthResponse
-import ru.app.pharmacy.models.CategoryResponse
-import ru.app.pharmacy.models.EmailResponse
-import ru.app.pharmacy.models.MedicineResponse
-import ru.app.pharmacy.models.OrderResponse
-import ru.app.pharmacy.models.PharmacyResponse
+import ru.app.pharmacy.models.*
 
 interface PharmacyAPI {
     @GET("/api/categories")
@@ -56,4 +50,14 @@ interface PharmacyAPI {
 
     @GET("/api/order")
     fun getOrders(): Call<OrderResponse>
+
+    @Multipart
+    @POST("/api/me/change")
+    fun changeMe(
+        @Part("fullName") name: RequestBody,
+        @Part("bdate") bd: RequestBody
+    ): Call<MeResponse>
+
+    @GET("/api/me")
+    fun getMe(): Call<Me>
 }

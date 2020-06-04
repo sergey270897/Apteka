@@ -62,7 +62,7 @@ class HeaderInterceptor(private val repository: TokenRepository) : Interceptor {
             profile.refresh = refreshResponse.body()?.refreshToken
             repository.saveProfile(profile)
         } else {
-            repository.saveProfile(Profile(null, null, null, null))
+            repository.saveProfile(Profile(null, null, null, null, null))
         }
         return refreshResponse.code()
     }

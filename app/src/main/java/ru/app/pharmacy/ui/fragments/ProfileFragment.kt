@@ -1,6 +1,8 @@
 package ru.app.pharmacy.ui.fragments
 
+import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +18,13 @@ import ru.app.pharmacy.ui.adapters.CityAdapter
 import ru.app.pharmacy.utils.extensions.getInitials
 import ru.app.pharmacy.utils.extensions.onTextChanged
 import ru.app.pharmacy.viewmodels.ProfileModel
+import java.util.*
 
 class ProfileFragment : Fragment() {
 
     private val modelProfile: ProfileModel by viewModel()
     private lateinit var adapter: CityAdapter
+    private val calendar = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,6 +68,7 @@ class ProfileFragment : Fragment() {
 
         if (!modelProfile.isEdit.value!!) {
             name_profile.editText?.setText(modelProfile.profile.name)
+            tv_bd_profile.text = modelProfile.profile.bd
             editMode(false)
         } else {
             editMode(true)
@@ -82,6 +87,26 @@ class ProfileFragment : Fragment() {
             modelProfile.exitProfile()
             (activity as MainActivity).supportFragmentManager.popBackStack()
         }
+
+        tv_bd_profile.setOnClickListener {
+            showDatePicker()
+        }
+    }
+
+    private fun showDatePicker() {
+        calendar.time = modelProfile.profile.getDate()
+        val datePicker = DatePickerDialog(
+            context!!,
+            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                calendar.set(year, month, dayOfMonth)
+                modelProfile.profile.setDate(calendar.time)
+                tv_bd_profile.text = modelProfile.profile.bd
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DATE)
+        )
+        datePicker.show()
     }
 
     private fun setCurrentCity() {
@@ -93,7 +118,7 @@ class ProfileFragment : Fragment() {
 
     private fun editMode(isEdit: Boolean) {
         spinner_city_profile.isEnabled = isEdit
-
+        tv_bd_profile.isEnabled = isEdit
         tv_name_profile.isEnabled = isEdit
         tv_name_profile.isClickable = isEdit
         if (isEdit) {
@@ -108,7 +133,7 @@ class ProfileFragment : Fragment() {
 
     private fun save() {
         val name = name_profile.editText?.text.toString().trim().isNotEmpty()
-            && name_profile.editText?.text.toString().first().isLetter()
+                && name_profile.editText?.text.toString().first().isLetter()
         return if (name) {
             editMode(false)
             name_profile.error = null
