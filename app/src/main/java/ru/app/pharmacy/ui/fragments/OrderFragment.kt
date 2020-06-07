@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.fragment_order.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.app.pharmacy.R
@@ -100,7 +101,7 @@ class OrderFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     rv_list_order.visibility = View.VISIBLE
                 }
             }
-            NetworkState.FAILED -> {
+            else -> {
                 tv_state_order.text = getString(R.string.error)
                 tv_state_order.visibility = View.VISIBLE
                 btn_refresh_order.visibility = View.VISIBLE

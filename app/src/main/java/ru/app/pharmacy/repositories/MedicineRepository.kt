@@ -1,15 +1,13 @@
 package ru.app.pharmacy.repositories
 
 import androidx.lifecycle.LiveData
+import com.google.gson.Gson
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.await
-import ru.app.pharmacy.models.AddOrderResponse
-import ru.app.pharmacy.models.Medicine
-import ru.app.pharmacy.models.MedicineCart
-import ru.app.pharmacy.models.MedicineDao
+import ru.app.pharmacy.models.*
 import ru.app.pharmacy.network.PharmacyAPI
 import ru.app.pharmacy.repositories.manager.SharedPrefsManager
 
@@ -49,9 +47,8 @@ class MedicineRepository(
         val jObject = JSONObject()
         val jArray = JSONArray()
         for (p in products) {
-            val obj = JSONObject()
-            obj.put("itemId", p.id)
-            obj.put("count", p.count.value)
+            val orderItem = OrderItem(p.id,p.count.value!!)
+            val obj = JSONObject(Gson().toJson(orderItem, OrderItem::class.java))
             jArray.put(obj)
         }
         jObject.put("order", jArray)
@@ -86,6 +83,8 @@ class MedicineRepository(
     fun deleteCartItem(medicineCart: MedicineCart) = medicineDao.delete(medicineCart)
 
     fun deleteAll() = medicineDao.deleteAll()
+
+    fun updateItemById(id: Long, balance: Int) = medicineDao.updateItem(id, balance)
 
     fun getProfile() = sharedPrefsManager.getProfile()
 }

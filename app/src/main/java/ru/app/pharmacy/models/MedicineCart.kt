@@ -26,7 +26,7 @@ data class MedicineCart(
     val rating: Float,
     val available: Boolean,
     val description: String,
-    var balance:Int
+    var balance: Int
 ) {
     fun priceString(): String = String.format("%.2f ₽", price)
     fun toMedicine(): Medicine {
@@ -69,4 +69,7 @@ interface MedicineDao {
 
     @Query("delete from cart")
     fun deleteAll()
+
+    @Query("update cart set balance = :balance where id = :id")
+    fun updateItem(id: Long, balance: Int)
 }

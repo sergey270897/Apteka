@@ -117,11 +117,13 @@
                 app:backgroundTint="@color/colorAccent" />
 
             <TextView
+                android:textColor="@{medicine.count > medicine.balance? @color/colorRed : @color/colorGray}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_count_medicine_card"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
+                android:visibility="@{medicine.available? View.VISIBLE : View.GONE}"
                 android:text='@{@string/balance + " " + medicine.balance}' />
         </RelativeLayout>
     </LinearLayout>

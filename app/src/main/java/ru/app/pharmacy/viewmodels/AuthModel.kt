@@ -9,6 +9,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import retrofit2.HttpException
 import ru.app.pharmacy.models.AuthResponse
 import ru.app.pharmacy.models.Profile
 import ru.app.pharmacy.network.NetworkState
@@ -69,13 +70,16 @@ class AuthModel(
     }
 
     private fun getErrorHandler() = CoroutineExceptionHandler { _, e ->
-        e.message?.let {
-            if (it.contains("HTTP 401") || it.contains("HTTP 403") || it.contains("HTTP 406")) {
+        Log.d("M__AuthModel", "An error happened: $e")
+        if(e is HttpException){
+            if(e.code() == 401 || e.code() == 403 || e.code() == 406){
                 val state = NetworkState.WRONG_DATA
                 state.code = 0
                 _networkState.postValue(state)
-            } else _networkState.postValue(NetworkState.FAILED)
-        } ?: _networkState.postValue(NetworkState.FAILED)
+            }else {
+                _networkState.postValue(NetworkState.FAILED)
+            }
+        }
         supervisorJob.cancelChildren()
     }
 

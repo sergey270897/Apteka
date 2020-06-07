@@ -48,4 +48,5 @@
     <string name="bd">Дата рождения</string>
     <string name="balance">В наличии</string>
     <string name="orderTotal">Итого:  %1$s</string>
+    <string name="balanceError">Данного количества товара нет на складе</string>
 </resources>

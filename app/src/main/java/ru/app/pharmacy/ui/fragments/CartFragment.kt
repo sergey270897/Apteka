@@ -115,6 +115,10 @@ class CartFragment : Fragment(), CartAdapter.OnClickListener {
                         msg = getString(R.string.errorSnackBar)
                         resources.getColor(R.color.colorRed)
                     }
+                    4->{
+                        msg=getString(R.string.balanceError)
+                        resources.getColor(R.color.colorRed)
+                    }
                     else -> resources.getColor(R.color.colorPrimary)
                 }
                 showSnackBar(msg, color)

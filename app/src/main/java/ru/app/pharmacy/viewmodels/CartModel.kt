@@ -3,10 +3,13 @@ package ru.app.pharmacy.viewmodels
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import ru.app.pharmacy.models.AddOrderResponse
 import ru.app.pharmacy.models.MedicineCart
 import ru.app.pharmacy.network.NetworkState
 import ru.app.pharmacy.repositories.MedicineRepository
@@ -53,9 +56,26 @@ class CartModel(
 
     private fun getErrorHandler() = CoroutineExceptionHandler { _, e ->
         Log.d("M__CartModel", "An error happened: $e")
-        _networkState.postValue(NetworkState.FAILED)
-        _msg.postValue(3 to "Error")
+        if(e is HttpException){
+            if(e.code() == 409){
+                _msg.postValue(4 to "BalanceError")
+                _networkState.postValue(NetworkState.WRONG_DATA)
+                val jResponse = e.response()?.errorBody()?.string()
+                val orderResponse = Gson().fromJson(jResponse, AddOrderResponse::class.java)
+                updateCartItems(orderResponse)
+            }else{
+                _networkState.postValue(NetworkState.FAILED)
+                _msg.postValue(3 to "Error")
+            }
+        }
         supervisorJob.cancelChildren()
+    }
+
+    private fun updateCartItems(response:AddOrderResponse){
+        val items = response.order
+        for(item in items){
+            repository.updateItemById(item.itemId, item.count)
+        }
     }
 
     fun setTotal(list: List<MedicineCart>) {

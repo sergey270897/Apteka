@@ -10,45 +10,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_list_order"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            app:spanCount="2"
-            tools:listitem="@layout/card_order" />
+            android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/progress_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
 
-        <TextView
-            android:id="@+id/tv_state_order"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="32dp"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:visibility="gone" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_list_order"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                app:spanCount="2"
+                tools:listitem="@layout/card_order" />
 
-        <Button
-            android:id="@+id/btn_refresh_order"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_below="@id/tv_state_order"
-            android:layout_centerInParent="true"
-            android:background="@drawable/bg_round_color"
-            android:fontFamily="sans-serif-light"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:stateListAnimator="@null"
-            android:text="@string/refresh"
-            android:textColor="@android:color/white"
-            android:visibility="gone"
-            app:backgroundTint="@color/colorAccent" />
+            <ProgressBar
+                android:id="@+id/progress_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:id="@+id/tv_state_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="32dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_refresh_order"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_below="@id/tv_state_order"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bg_round_color"
+                android:fontFamily="sans-serif-light"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:stateListAnimator="@null"
+                android:text="@string/refresh"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                app:backgroundTint="@color/colorAccent" />
+        </RelativeLayout>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>

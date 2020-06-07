@@ -1,10 +1,11 @@
 package ru.app.pharmacy.models
 
-import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class AddOrderResponse(val error: Int, val msg: String)
+data class AddOrderResponse(val error: Int, val msg: String, val order: List<OrderItem>)
+
+data class OrderItem(val itemId: Long, val count: Int)
 
 data class OrderResponse(val orders: List<Order>)
 
