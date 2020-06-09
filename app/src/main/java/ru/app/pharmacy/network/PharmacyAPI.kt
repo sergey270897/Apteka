@@ -20,7 +20,7 @@ interface PharmacyAPI {
         @Query("categoryId") categoryId: Int,
         @Query("priceFrom") priceFrom: Int,
         @Query("priceTo") priceTo: Int,
-        @Query("available") available: Boolean,
+        @Query("available") available: Short,
         @Query("count") count: Int,
         @Query("offset") offset: Int,
         @Query("orderBy") orderBy: String,

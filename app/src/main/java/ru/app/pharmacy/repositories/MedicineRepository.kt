@@ -33,7 +33,7 @@ class MedicineRepository(
             categoryId,
             priceFrom,
             priceTo,
-            available,
+            if(available) 1 else 0,
             count,
             offset,
             orderBy,
