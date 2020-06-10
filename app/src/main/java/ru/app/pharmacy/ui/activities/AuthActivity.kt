@@ -31,7 +31,11 @@ class AuthActivity : AppCompatActivity() {
     private fun initObserver() {
         modelAuth.networkState.observe(this, Observer {
             if (it == NetworkState.FAILED) showError(getString(R.string.errorSnackBar))
-            if (it == NetworkState.WRONG_DATA && it.code == 1) showError("Невозможно выполнить вход")
+            if (it == NetworkState.WRONG_DATA && it.code == 1) showError(getString(R.string.loginError))
+            if (it == NetworkState.WRONG_DATA && it.code == 2) {
+                showError(getString(R.string.errorCountTrying))
+                supportFragmentManager.popBackStack()
+            }
         })
 
         modelAuth.finishAuth.observe(this, Observer {
@@ -42,7 +46,7 @@ class AuthActivity : AppCompatActivity() {
         })
     }
 
-    private fun showError(msg:String) {
+    private fun showError(msg: String) {
         hideKeyboard()
         Snackbar.make(auth_container, msg, Snackbar.LENGTH_SHORT)
             .setBackgroundTint(resources.getColor(R.color.colorRed))

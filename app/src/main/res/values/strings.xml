@@ -49,4 +49,6 @@
     <string name="balance">В наличии</string>
     <string name="orderTotal">Итого:  %1$s</string>
     <string name="balanceError">Данного количества товара нет на складе</string>
+    <string name="loginError">Невозможно выполнить вход</string>
+    <string name="errorCountTrying">Превышен лимит попыток входа</string>
 </resources>

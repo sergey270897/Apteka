@@ -16,6 +16,7 @@ import ru.app.pharmacy.network.NetworkState
 import ru.app.pharmacy.repositories.AuthRepository
 import ru.app.pharmacy.repositories.manager.SharedPrefsManager
 import ru.app.pharmacy.ui.base.BaseViewModel
+import java.lang.Exception
 import java.util.*
 
 class AuthModel(
@@ -24,7 +25,7 @@ class AuthModel(
 ) :
     BaseViewModel() {
 
-    companion object{
+    companion object {
         private const val MINUTE = 60000L
         private const val SECOND = 1000L
     }
@@ -71,12 +72,16 @@ class AuthModel(
 
     private fun getErrorHandler() = CoroutineExceptionHandler { _, e ->
         Log.d("M__AuthModel", "An error happened: $e")
-        if(e is HttpException){
-            if(e.code() == 401 || e.code() == 403 || e.code() == 406){
+        if (e is HttpException) {
+            if (e.code() == 401 || e.code() == 403) {
                 val state = NetworkState.WRONG_DATA
                 state.code = 0
                 _networkState.postValue(state)
-            }else {
+            } else if (e.code() == 406) {
+                val state = NetworkState.WRONG_DATA
+                state.code = 2
+                _networkState.postValue(state)
+            } else {
                 _networkState.postValue(NetworkState.FAILED)
             }
         }
@@ -91,7 +96,7 @@ class AuthModel(
     *
     * only user can login
     * */
-    private fun checkUserLevel(auth:AuthResponse):Boolean{
+    private fun checkUserLevel(auth: AuthResponse): Boolean {
         var token = auth.accessToken.split(".")[1]
         token = String(Base64.getDecoder().decode(token))
         val level = JSONObject(token).getInt("level")
@@ -116,16 +121,16 @@ class AuthModel(
 
         ioScope.launch(getErrorHandler() + supervisorJob) {
             val token = repository.auth(email, secretNum)
-            if(checkUserLevel(token)){
+            if (checkUserLevel(token)) {
                 _networkState.postValue(NetworkState.SUCCESS)
                 setProfile(token = token.accessToken, refresh = token.refreshToken)
                 saveProfile()
-            }else{
+                finishAuth.postValue(true)
+            } else {
                 val state = NetworkState.WRONG_DATA
                 state.code = 1
                 _networkState.postValue(state)
             }
-            finishAuth.postValue(true)
         }
     }
 
@@ -134,7 +139,7 @@ class AuthModel(
         email: String? = null,
         token: String? = null,
         refresh: String? = null,
-        bd:String? = null
+        bd: String? = null
     ) {
         name?.let { profile.name = name }
         email?.let { profile.email = email }

@@ -1,10 +1,7 @@
 package ru.app.pharmacy.network
 
 import android.util.Log
-import okhttp3.Interceptor
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.ResponseBody
+import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -19,11 +16,11 @@ class HeaderInterceptor(private val repository: TokenRepository) : Interceptor {
 
         Log.d("M__HeaderInterceptor", request.url().toString())
         Log.d("M__HeaderInterceptor", response.code().toString())
-
         val rawJson = response.body()?.string()
+
         if (response.code() == 200) printResponse(rawJson)
 
-        if (response.code() == 406) {
+        if (response.code() == 406 && needToken(request.url())) {
             if (refreshToken() == 200) {
                 val req = setHeader(chain.request())
                 return chain.proceed(req)
@@ -35,9 +32,16 @@ class HeaderInterceptor(private val repository: TokenRepository) : Interceptor {
             .build()
     }
 
+    private fun needToken(url: HttpUrl): Boolean {
+        return when (url.encodedPath()) {
+            "/api/order/add", "/api/me/change", "/api/order", "/api/me" -> true
+            else -> false
+        }
+    }
+
     private fun setHeader(request: Request): Request {
         val profile = repository.getProfile()
-        if (profile.token != null)
+        if (profile.token != null && needToken(request.url()))
             return request.newBuilder()
                 .removeHeader("accessToken")
                 .addHeader("accessToken", profile.token)
